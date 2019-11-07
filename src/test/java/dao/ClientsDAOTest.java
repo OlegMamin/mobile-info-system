@@ -1,7 +1,6 @@
 package dao;
 
 import entities.Client;
-import entities.Option;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -15,7 +14,7 @@ import javax.persistence.Persistence;
 import static org.junit.Assert.*;
 
 /**
- * Created by AHYC on 06.11.2019.
+ * Created by otherz on 06.11.2019.
  */
 public class ClientsDAOTest {
     private EntityManagerFactory factory;
@@ -45,8 +44,8 @@ public class ClientsDAOTest {
 
         client.setLogin("test");
         client.setPassword("123");
-        client.setName("Bob");
-        client.setSurName("Brown");
+        client.setFirstName("Bob");
+        client.setLastName("Brown");
         client.setPassportNumber(1987654321);
 
         try {
@@ -68,8 +67,8 @@ public class ClientsDAOTest {
 
         client.setLogin("test");
         client.setPassword("123");
-        client.setName("Bob");
-        client.setSurName("Brown");
+        client.setFirstName("Bob");
+        client.setLastName("Brown");
         client.setPassportNumber(1987654321);
 
         try {
@@ -100,8 +99,8 @@ public class ClientsDAOTest {
 
         client.setLogin("test");
         client.setPassword("456");
-        client.setName("Bob");
-        client.setSurName("Brown");
+        client.setFirstName("Bob");
+        client.setLastName("Brown");
         client.setPassportNumber(1987654321);
 
         try {
@@ -131,8 +130,8 @@ public class ClientsDAOTest {
 
         client.setLogin("test");
         client.setPassword("123");
-        client.setName("Bob");
-        client.setSurName("Brown");
+        client.setFirstName("Bob");
+        client.setLastName("Brown");
         client.setPassportNumber(1987654321);
 
         try {

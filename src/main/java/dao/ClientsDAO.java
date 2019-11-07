@@ -5,7 +5,7 @@ import entities.Client;
 import javax.persistence.EntityManager;
 
 /**
- * Created by AHYC on 06.11.2019.
+ * Created by otherz on 06.11.2019.
  */
 public class ClientsDAO {
     private final EntityManager manager;

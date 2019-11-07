@@ -1,12 +1,13 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "options")
 public class Option {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false, length = 64, unique = true)
@@ -19,23 +20,16 @@ public class Option {
     private double monthlyPayment;
 
     @ManyToOne(optional = false)
-    private Tariff tariff;
+    private Contract contract;
 
     public Option() {
     }
 
-    public Option(String name, double costOfConnection, double monthlyPayment) {
+    public Option(String name, double costOfConnection, double monthlyPayment, Contract contract) {
         this.name = name;
         this.costOfConnection = costOfConnection;
         this.monthlyPayment = monthlyPayment;
-    }
-
-    public Tariff getTariff() {
-        return tariff;
-    }
-
-    public void setTariff(Tariff tariff) {
-        this.tariff = tariff;
+        this.contract = contract;
     }
 
     public int getId() {

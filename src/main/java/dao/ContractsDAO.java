@@ -4,9 +4,10 @@ import entities.Client;
 import entities.Contract;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
- * Created by AHYC on 06.11.2019.
+ * Created by otherz on 06.11.2019.
  */
 public class ContractsDAO {
     private final EntityManager manager;
@@ -23,6 +24,13 @@ public class ContractsDAO {
         return manager.createQuery("FROM Contract WHERE phoneNumber = :p", Contract.class)
                 .setParameter("p", phoneNumber)
                 .getSingleResult();
+
+    }
+
+    public List<Contract> findByClient(Client client){
+        return manager.createQuery("FROM Contract WHERE client.id = :p", Contract.class)
+                .setParameter("p", client.getId())
+                .getResultList();
 
     }
 

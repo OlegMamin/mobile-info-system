@@ -2,12 +2,13 @@ package entities;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "contracts")
 public class Contract {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column
@@ -16,6 +17,7 @@ public class Contract {
     @ManyToOne(optional = false)
     private Client client;
 
+
     public Contract() {
     }
 
@@ -23,6 +25,7 @@ public class Contract {
         this.phoneNumber = phoneNumber;
         this.client = client;
     }
+
 
     public long getPhoneNumber() {
         return phoneNumber;

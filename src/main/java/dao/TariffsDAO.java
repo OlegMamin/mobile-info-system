@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
- * Created by AHYC on 06.11.2019.
+ * Created by otherz on 06.11.2019.
  */
 public class TariffsDAO {
     private final EntityManager manager;

@@ -1,24 +1,22 @@
 package entities;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "clients")
 public class Client {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(length = 32)
-    private String name;
+    private String firstName;
 
     @Column(length = 32)
-    private String surName;
+    private String lastName;
 
-    @Column
+    @Column()
     @Temporal(TemporalType.DATE)
     private Date birthDate;
 
@@ -32,8 +30,6 @@ public class Client {
     @Column(unique = true)
     private String eMail;
 
-    @OneToMany()
-    private List<Contract> contracts;
 
     @Column(unique = true, nullable = false, length = 32)
     private String login;
@@ -50,13 +46,6 @@ public class Client {
         this.password = password;
     }
 
-    public List<Contract> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(List<Contract> contracts) {
-        this.contracts = contracts;
-    }
 
     public int getId() {
         return id;
@@ -66,20 +55,20 @@ public class Client {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
     }
 
-    public String getSurName() {
-        return surName;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurName(String surName) {
-        this.surName = surName;
+    public void setLastName(String surName) {
+        this.lastName = surName;
     }
 
     public Date getBirthDate() {

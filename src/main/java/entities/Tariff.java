@@ -3,10 +3,10 @@ package entities;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "rates")
+@Table(name = "tariffs")
 public class Tariff {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(unique = true, nullable = false, length = 32)
@@ -15,7 +15,7 @@ public class Tariff {
     @Column
     private double price;
 
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Contract contract;
 
     public Tariff() {

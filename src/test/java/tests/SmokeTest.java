@@ -11,7 +11,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- * Created by AHYC on 01.11.2019.
+ * Created by otherz on 01.11.2019.
  */
 public class SmokeTest {
     private EntityManagerFactory factory;
@@ -38,8 +38,8 @@ public class SmokeTest {
         Client client = new Client();
         client.setLogin("test");
         client.setPassword("123");
-        client.setName("Bob");
-        client.setSurName("Brown");
+        client.setFirstName("Bob");
+        client.setLastName("Brown");
         client.setPassportNumber(1987654321);
 
 
