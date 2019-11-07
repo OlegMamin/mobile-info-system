@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Client {
 
     @Column
     @Temporal(TemporalType.DATE)
-    private LocalDate birthDate;
+    private Date birthDate;
 
     @Column(nullable = false, unique = true, length = 10)
     private long passportNumber;
@@ -81,11 +82,11 @@ public class Client {
         this.surName = surName;
     }
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
 
