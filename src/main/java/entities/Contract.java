@@ -19,7 +19,6 @@ public class Contract {
     @ManyToOne
     private Tariff tariff;
 
-
     public Contract() {
     }
 

@@ -26,10 +26,8 @@ public class Client {
     @Column
     private String address;
 
-
     @Column(unique = true)
     private String eMail;
-
 
     @Column(unique = true, nullable = false, length = 32)
     private String login;
