@@ -1,4 +1,4 @@
 .idea
 *.iml
 target
-util
+src\main\java\util\*

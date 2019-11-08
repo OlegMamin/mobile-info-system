@@ -32,6 +32,14 @@ public class Option {
         this.contract = contract;
     }
 
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
+    }
+
     public int getId() {
         return id;
     }

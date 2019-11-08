@@ -49,8 +49,8 @@ public class OptionsDAOTest {
         manager.getTransaction().begin();
 
         Client client = new Client(1234564145, "login", "123");
-        Contract contract = new Contract(7557755, client);
-        Tariff tariff = new Tariff("tariff", 100, contract);
+        Tariff tariff = new Tariff("tariff", 100);
+        Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
 
         try {
@@ -75,8 +75,8 @@ public class OptionsDAOTest {
         manager.getTransaction().begin();
 
         Client client = new Client(1234564145, "login", "123");
-        Contract contract = new Contract(7557755, client);
-        Tariff tariff = new Tariff("tariff", 100, contract);
+        Tariff tariff = new Tariff("tariff", 100);
+        Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
 
 
@@ -111,8 +111,8 @@ public class OptionsDAOTest {
         manager.getTransaction().begin();
 
         Client client = new Client(1234564145, "login", "123");
-        Contract contract = new Contract(7557755, client);
-        Tariff tariff = new Tariff("tariff", 100, contract);
+        Tariff tariff = new Tariff("tariff", 100);
+        Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
 
         try {
@@ -140,8 +140,8 @@ public class OptionsDAOTest {
         manager.getTransaction().begin();
 
         Client client = new Client(1234564145, "login", "123");
-        Contract contract = new Contract(7557755, client);
-        Tariff tariff = new Tariff("tariff", 100, contract);
+        Tariff tariff = new Tariff("tariff", 100);
+        Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
 
 

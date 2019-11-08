@@ -1,8 +1,7 @@
 package entities;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.Set;
+
 
 @Entity
 @Table(name = "contracts")
@@ -17,15 +16,26 @@ public class Contract {
     @ManyToOne(optional = false)
     private Client client;
 
+    @ManyToOne
+    private Tariff tariff;
+
 
     public Contract() {
     }
 
-    public Contract(long phoneNumber, Client client) {
+    public Contract(long phoneNumber, Client client, Tariff tariff) {
         this.phoneNumber = phoneNumber;
         this.client = client;
+        this.tariff = tariff;
     }
 
+    public Tariff getTariff() {
+        return tariff;
+    }
+
+    public void setTariff(Tariff tariff) {
+        this.tariff = tariff;
+    }
 
     public long getPhoneNumber() {
         return phoneNumber;

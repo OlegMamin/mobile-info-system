@@ -15,16 +15,14 @@ public class Tariff {
     @Column
     private double price;
 
-    @ManyToOne(optional = false)
-    private Contract contract;
 
     public Tariff() {
     }
 
-    public Tariff(String name, double price, Contract contract) {
+    public Tariff(String name, double price) {
         this.name = name;
         this.price = price;
-        this.contract = contract;
+
     }
 
     public int getId() {
