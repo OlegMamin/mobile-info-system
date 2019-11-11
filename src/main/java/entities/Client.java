@@ -38,12 +38,13 @@ public class Client {
     public Client() {
     }
 
-    public Client(long passportNumber, String login, String password) {
+    public Client(String firstName, String lastName, long passportNumber, String login, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.passportNumber = passportNumber;
         this.login = login;
         this.password = password;
     }
-
 
     public int getId() {
         return id;

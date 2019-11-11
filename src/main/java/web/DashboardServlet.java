@@ -2,12 +2,8 @@ package web;
 
 import dao.ClientsDAO;
 import dao.ContractsDAO;
-import dao.OptionsDAO;
-import dao.TariffsDAO;
 import entities.Client;
 import entities.Contract;
-import entities.Option;
-import entities.Tariff;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -22,27 +18,29 @@ import java.io.IOException;
 import java.util.List;
 
 /**
- * Created by otherz on 08.11.2019.
+ * Created by otherz on 11.11.2019.
  */
-@WebServlet(urlPatterns = "/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/dashboard")
+public class DashboardServlet extends HttpServlet {
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String login = req.getParameter("login");
-        String password = req.getParameter("password");
-
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         EntityManagerFactory factory = StartupListener.getFactory(req.getServletContext());
         EntityManager manager = factory.createEntityManager();
-        ClientsDAO dao = new ClientsDAO(manager);
+        ClientsDAO clientsDAO = new ClientsDAO(manager);
         ContractsDAO contractsDAO = new ContractsDAO(manager);
-        try {
-            Client found = dao.findByLoginAndPassword(login, password);
-            req.getSession().setAttribute("clientId", found.getId());
 
-            resp.sendRedirect("/dashboard");
+        try {
+            int accountId = (int) req.getSession().getAttribute("clientId");
+            Client found = manager.find(Client.class, accountId);
+            List<Contract> contracts = contractsDAO.findByClient(found);
+
+            req.setAttribute("contracts", contracts);
+
+            req.getRequestDispatcher("/dashboard.jsp").forward(req, resp);
         } catch (NoResultException notFound) {
-            req.getRequestDispatcher("/index.jsp?login=" + login).forward(req, resp);
+            req.getRequestDispatcher("/").forward(req, resp);
+
         } finally {
             manager.close();
         }

@@ -47,7 +47,7 @@ public class TariffsDAOTest {
     public void create() throws Exception {
         manager.getTransaction().begin();
 
-        Client client = new Client(1234564145, "login", "123");
+        Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
@@ -73,7 +73,7 @@ public class TariffsDAOTest {
     public void findByName() throws Exception {
         manager.getTransaction().begin();
 
-        Client client = new Client(1234564145, "login", "123");
+        Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
@@ -108,7 +108,7 @@ public class TariffsDAOTest {
     public void findByPriceInterval() throws Exception {
         manager.getTransaction().begin();
 
-        Client client = new Client(1234564145, "login", "123");
+        Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
         Option option = new Option("testDao", 10, 3, contract);
