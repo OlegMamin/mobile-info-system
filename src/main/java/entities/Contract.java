@@ -1,6 +1,8 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -19,6 +21,9 @@ public class Contract {
     @ManyToOne
     private Tariff tariff;
 
+    @ManyToMany
+    private Set<Option> options;
+
     public Contract() {
     }
 
@@ -26,6 +31,14 @@ public class Contract {
         this.phoneNumber = phoneNumber;
         this.client = client;
         this.tariff = tariff;
+        this.options = new HashSet<>();
+    }
+    public Set<Option> getOptions() {
+        return options;
+    }
+
+    public void setOptions(Set<Option> options) {
+        this.options = options;
     }
 
     public Tariff getTariff() {

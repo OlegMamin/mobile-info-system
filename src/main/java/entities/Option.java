@@ -1,6 +1,7 @@
 package entities;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,26 +20,15 @@ public class Option {
     @Column
     private double monthlyPayment;
 
-    @ManyToOne(optional = false)
-    private Contract contract;
-
     public Option() {
     }
 
-    public Option(String name, double costOfConnection, double monthlyPayment, Contract contract) {
+    public Option(String name, double costOfConnection, double monthlyPayment) {
         this.name = name;
         this.costOfConnection = costOfConnection;
         this.monthlyPayment = monthlyPayment;
-        this.contract = contract;
     }
 
-    public Contract getContract() {
-        return contract;
-    }
-
-    public void setContract(Contract contract) {
-        this.contract = contract;
-    }
 
     public int getId() {
         return id;

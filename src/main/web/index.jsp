@@ -11,11 +11,11 @@
     </style>
 </head>
 <body>
-    <h1>Hello</h1>
+    <h1>Hello, ${sessionScope['clientName']}!</h1>
 
     <p>${param['p']}</p>
     <p>${header['User-Agent']}</p>
-    <c:if test="${empty sessionScope['accountId']}">
+    <c:if test="${empty sessionScope['clientId']}">
         <form method="post" action="/login">
             <p>Login: <input type="text" name="login" value="${param['login']}"></p>
             <p>Password: <input type="password" name="password"></p>
@@ -23,8 +23,8 @@
         </form>
     </c:if>
 
-    <c:if test="${not empty sessionScope['accountId']}">
-        <p><a href="/dashboard">Dashboard</a></p>
+    <c:if test="${not empty sessionScope['clientId']}">
+        <p><a href="/dashboard">Contracts</a></p>
     </c:if>
 
     <c:if test="${not empty param['login']}">

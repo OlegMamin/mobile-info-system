@@ -51,7 +51,7 @@ public class OptionsDAOTest {
         Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3, contract);
+        Option option = new Option("testDao", 10, 3);
 
         try {
             manager.persist(client);
@@ -77,7 +77,7 @@ public class OptionsDAOTest {
         Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3, contract);
+        Option option = new Option("testDao", 10, 3);
 
 
         try {
@@ -113,7 +113,7 @@ public class OptionsDAOTest {
         Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3, contract);
+        Option option = new Option("testDao", 10, 3);
 
         try {
             manager.persist(client);
@@ -142,7 +142,7 @@ public class OptionsDAOTest {
         Client client = new Client("John", "Terry",1234564145, "login", "123");
         Tariff tariff = new Tariff("tariff", 100);
         Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3, contract);
+        Option option = new Option("testDao", 10, 3);
 
 
         try {

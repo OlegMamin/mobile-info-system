@@ -2,6 +2,7 @@ package dao;
 
 import entities.Client;
 import entities.Contract;
+import entities.Option;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -33,5 +34,7 @@ public class ContractsDAO {
                 .getResultList();
 
     }
+
+
 
 }

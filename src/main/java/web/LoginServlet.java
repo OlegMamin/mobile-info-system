@@ -39,6 +39,7 @@ public class LoginServlet extends HttpServlet {
         try {
             Client found = dao.findByLoginAndPassword(login, password);
             req.getSession().setAttribute("clientId", found.getId());
+            req.getSession().setAttribute("clientName", found.getFirstName());
 
             resp.sendRedirect("/dashboard");
         } catch (NoResultException notFound) {
