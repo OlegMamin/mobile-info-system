@@ -1,6 +1,7 @@
 package dao;
 
 import entities.Client;
+import entities.Contract;
 
 import javax.persistence.EntityManager;
 
@@ -24,16 +25,24 @@ public class ClientsDAO {
                 .getSingleResult();
 
     }
+
     public Client findByLoginAndPassword(String login, String password){
         return manager.createQuery("FROM Client WHERE login = :l AND password = :p", Client.class)
                 .setParameter("l", login)
                 .setParameter("p", password)
                 .getSingleResult();
     }
+
     public Client findByPassportNumber(long passportNumber){
         return manager.createQuery("FROM Client WHERE passportNumber = :p", Client.class)
                 .setParameter("p", passportNumber)
                 .getSingleResult();
+    }
 
+    public Client findByPhoneNumber(long phoneNumber) {
+        Contract contract =  manager.createQuery("FROM Contract WHERE phoneNumber = :p", Contract.class)
+                .setParameter("p", phoneNumber)
+                .getSingleResult();
+        return contract.getClient();
     }
 }

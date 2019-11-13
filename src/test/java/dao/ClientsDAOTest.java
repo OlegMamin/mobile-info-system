@@ -1,6 +1,8 @@
 package dao;
 
 import entities.Client;
+import entities.Contract;
+import entities.Tariff;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,6 +19,8 @@ import static org.junit.Assert.*;
  * Created by otherz on 06.11.2019.
  */
 public class ClientsDAOTest {
+
+
     private EntityManagerFactory factory;
     private EntityManager manager;
     private ClientsDAO dao;
@@ -153,7 +157,42 @@ public class ClientsDAOTest {
         } catch (NoResultException expected) {
 
         }
-    }
 
+    }
+    @Test
+    public void findByPhoneNumber() throws Exception {
+        manager.getTransaction().begin();
+        Client client = new Client();
+        client.setLogin("test");
+        client.setPassword("123");
+        client.setFirstName("Bob");
+        client.setLastName("Brown");
+        client.setPassportNumber(1987654321);
+
+        Tariff tariff = new Tariff("someTariff", 123);
+
+        Contract contract = new Contract(6767678, client, tariff);
+
+        try {
+            manager.persist(client);
+            manager.persist(tariff);
+            manager.persist(contract);
+            manager.getTransaction().commit();
+        } catch (Exception e) {
+            manager.getTransaction().rollback();
+            throw e;
+        }
+        Client found = dao.findByPhoneNumber(6767678);
+
+        Assert.assertNotNull(found);
+        Assert.assertEquals(client.getId(), found.getId());
+
+        try {
+            dao.findByPhoneNumber(12345);
+            fail("User with invalid phone number shouldn't be found");
+        } catch (NoResultException expected) {
+
+        }
+    }
 
 }
