@@ -1,8 +1,9 @@
-package dao;
+package ru.levelup.junior.dao;
 
-import entities.Client;
-import entities.Contract;
-import entities.Option;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -10,9 +11,11 @@ import java.util.List;
 /**
  * Created by otherz on 06.11.2019.
  */
+@Repository
 public class ContractsDAO {
     private final EntityManager manager;
 
+    @Autowired
     public ContractsDAO(EntityManager manager){
         this.manager = manager;
     }

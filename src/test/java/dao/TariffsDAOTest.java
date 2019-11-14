@@ -1,13 +1,24 @@
 package dao;
 
-import entities.Client;
-import entities.Contract;
-import entities.Option;
-import entities.Tariff;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.levelup.junior.dao.ClientsDAO;
+import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.OptionsDAO;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
+import ru.levelup.junior.entities.Option;
+import ru.levelup.junior.entities.Tariff;
+import ru.levelup.junior.dao.TariffsDAO;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.levelup.junior.web.AppConfig;
+import ru.levelup.junior.web.DashboardService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,83 +32,47 @@ import static org.junit.Assert.*;
 /**
  * Created by otherz on 06.11.2019.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TariffsDAOTest {
-    private EntityManagerFactory factory;
+
+    @Autowired
+    private TariffsDAO tariffsDAO;
+
+    @Autowired
     private EntityManager manager;
-    private TariffsDAO dao;
+
+    private Tariff tariff;
 
     @Before
     public void setup() {
-        factory = Persistence.createEntityManagerFactory("TestPersistenceUnit");
-        manager = factory.createEntityManager();
-        dao = new TariffsDAO(manager);
-    }
-
-    @After
-    public void cleanUp() {
-        if (manager != null) {
-            manager.close();
-        }
-        if (factory != null) {
-            factory.close();
-        }
-    }
-
-    @Test
-    public void create() throws Exception {
         manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
+        Tariff tariffLow = new Tariff("tariffLow", 100);
+        tariffsDAO.create(tariffLow);
+        Tariff tariffHigh = new Tariff("tariffHigh", 300);
+        tariffsDAO.create(tariffHigh);
+        Tariff tariffMedium = new Tariff("tariffMedium", 200);
+        tariffsDAO.create(tariffMedium);
 
-
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
-
-            dao.create(tariff);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-
+        this.tariff = tariffLow;
+    }
+    @Test
+    public void create() throws Exception {
         Assert.assertNotNull(manager.find(Tariff.class, tariff.getId()));
     }
 
     @Test
     public void findByName() throws Exception {
-        manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
-
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
-
-            dao.create(tariff);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-
-        Tariff found = dao.findByName("tariff");
+        Tariff found = tariffsDAO.findByName(tariff.getName());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(tariff.getId(), found.getId());
 
         try {
-            dao.findByName("fakeName");
+            tariffsDAO.findByName("fakeName");
             fail("Option fakeName shouldn't be found");
         } catch (NoResultException expected) {
 
@@ -106,30 +81,10 @@ public class TariffsDAOTest {
 
     @Test
     public void findByPriceInterval() throws Exception {
-        manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
+        List<Tariff> found = tariffsDAO.findByPriceInterval(90, 210);
 
-
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
-
-            dao.create(tariff);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-
-        List<Tariff> found = dao.findByPriceInterval(90, 140);
-
-        Assert.assertEquals(1, found.size());
+        Assert.assertEquals(2, found.size());
         Assert.assertEquals(tariff.getId(), found.get(0).getId());
 
     }

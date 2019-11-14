@@ -1,7 +1,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="contracts" scope="request" type="java.util.List<entities.Contract>"/>
+<jsp:useBean id="contracts" scope="request" type="java.util.List<ru.levelup.junior.entities.Contract>"/>
 <html>
 <head>
     <title>Dashboard</title>

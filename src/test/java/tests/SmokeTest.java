@@ -1,6 +1,6 @@
 package tests;
 
-import entities.Client;
+import ru.levelup.junior.entities.Client;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;

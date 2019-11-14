@@ -1,14 +1,14 @@
-package web;
+package ru.levelup.junior.web;
 
-import dao.ClientsDAO;
-import dao.ContractsDAO;
-import entities.Client;
-import entities.Contract;
+import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.ClientsDAO;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
+import ru.levelup.junior.dao.ContractsDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +31,8 @@ public class DashboardServlet extends HttpServlet {
         ContractsDAO contractsDAO = new ContractsDAO(manager);
 
         try {
-            int accountId = (int) req.getSession().getAttribute("clientId");
-            Client found = manager.find(Client.class, accountId);
+            int clientId = (int) req.getSession().getAttribute("clientId");
+            Client found = clientsDAO.findById(clientId);
             List<Contract> contracts = contractsDAO.findByClient(found);
 
             req.setAttribute("contracts", contracts);

@@ -1,13 +1,24 @@
 package dao;
 
-import entities.Client;
-import entities.Contract;
-import entities.Option;
-import entities.Tariff;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import ru.levelup.junior.dao.ClientsDAO;
+import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
+import ru.levelup.junior.entities.Option;
+import ru.levelup.junior.entities.Tariff;
+import ru.levelup.junior.dao.OptionsDAO;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import ru.levelup.junior.web.AppConfig;
+import ru.levelup.junior.web.DashboardService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -21,50 +32,44 @@ import static org.junit.Assert.*;
 /**
  * Created by otherz on 06.11.2019.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = AppConfig.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class OptionsDAOTest {
+    @Autowired
+    private DashboardService dashboardService;
 
-    private EntityManagerFactory factory;
+    @Autowired
+    private ClientsDAO clientsDAO;
+
+    @Autowired
+    private ContractsDAO contractsDAO;
+
+    @Autowired
+    private TariffsDAO tariffsDAO;
+
+    @Autowired
+    private OptionsDAO optionsDAO;
+
+    @Autowired
     private EntityManager manager;
-    private OptionsDAO dao;
+
+    private Option option;
 
     @Before
     public void setup() {
-        factory = Persistence.createEntityManagerFactory("TestPersistenceUnit");
-        manager = factory.createEntityManager();
-        dao = new OptionsDAO(manager);
-    }
-
-    @After
-    public void cleanUp() {
-        if (manager != null) {
-            manager.close();
-        }
-        if (factory != null) {
-            factory.close();
-        }
-    }
-
-    @Test
-    public void create() throws Exception {
         manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
+        Option option1 = new Option("testDao1", 10, 3);
+        optionsDAO.create(option1);
+        Option option2 = new Option("testDao2", 12, 4);
+        optionsDAO.create(option2);
 
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
 
-            dao.create(option);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
+        this.option = option1;
+    }
+    @Test
+    public void create() throws Exception {
 
         Assert.assertNotNull(manager.find(Option.class, option.getId()));
 
@@ -72,34 +77,14 @@ public class OptionsDAOTest {
 
     @Test
     public void findByName() throws Exception {
-        manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
-
-
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
-
-            dao.create(option);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-
-        Option found = dao.findByName("testDao");
+        Option found = optionsDAO.findByName(option.getName());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(option.getId(), found.getId());
 
         try {
-            dao.findByName("fakeName");
+            optionsDAO.findByName("fakeName");
             fail("Option fakeName shouldn't be found");
         } catch (NoResultException expected) {
 
@@ -108,61 +93,20 @@ public class OptionsDAOTest {
 
     @Test
     public void findByMonthlyPaymentInterval() throws Exception {
-        manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
+        List<Option> found = optionsDAO.findByMonthlyPaymentInterval(1, 10);
 
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
-
-            dao.create(option);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-
-        List<Option> found = dao.findByMonthlyPaymentInterval(1, 10);
-
-        Assert.assertEquals(1, found.size());
+        Assert.assertEquals(2, found.size());
         Assert.assertEquals(option.getId(), found.get(0).getId());
 
     }
 
     @Test
     public void findByCostOfConnectionInterval() throws Exception {
-        manager.getTransaction().begin();
 
-        Client client = new Client("John", "Terry",1234564145, "login", "123");
-        Tariff tariff = new Tariff("tariff", 100);
-        Contract contract = new Contract(7557755, client, tariff);
-        Option option = new Option("testDao", 10, 3);
-
-
-        try {
-            manager.persist(client);
-            manager.persist(contract);
-            manager.persist(tariff);
-
-            dao.create(option);
-
-            manager.getTransaction().commit();
-        } catch (Exception e) {
-            manager.getTransaction().rollback();
-            throw e;
-        }
-
-        List<Option> found = dao.findByCostOfConnectionInterval(2, 20);
+        List<Option> found = optionsDAO.findByCostOfConnectionInterval(2, 11);
 
         Assert.assertEquals(1, found.size());
         Assert.assertEquals(option.getId(), found.get(0).getId());
-
     }
-
 }

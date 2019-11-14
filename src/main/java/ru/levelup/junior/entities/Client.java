@@ -1,4 +1,4 @@
-package entities;
+package ru.levelup.junior.entities;
 
 import javax.persistence.*;
 import java.util.Date;

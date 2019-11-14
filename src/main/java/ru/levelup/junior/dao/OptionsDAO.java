@@ -1,6 +1,9 @@
-package dao;
+package ru.levelup.junior.dao;
 
-import entities.Option;
+import ru.levelup.junior.entities.Option;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ru.levelup.junior.entities.Option;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -8,9 +11,11 @@ import java.util.List;
 /**
  * Created by otherz on 06.11.2019.
  */
+@Repository
 public class OptionsDAO {
     private final EntityManager manager;
 
+    @Autowired
     public OptionsDAO(EntityManager manager){
         this.manager = manager;
     }

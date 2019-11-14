@@ -1,25 +1,19 @@
-package web;
+package ru.levelup.junior.web;
 
-import dao.ClientsDAO;
-import dao.ContractsDAO;
-import dao.OptionsDAO;
-import dao.TariffsDAO;
-import entities.Client;
-import entities.Contract;
-import entities.Option;
-import entities.Tariff;
+import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.ClientsDAO;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.dao.ContractsDAO;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by otherz on 08.11.2019.

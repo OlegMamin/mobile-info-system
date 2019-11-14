@@ -1,16 +1,22 @@
-package dao;
+package ru.levelup.junior.dao;
 
-import entities.Client;
-import entities.Contract;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
 
 import javax.persistence.EntityManager;
 
 /**
  * Created by otherz on 06.11.2019.
  */
+@Repository
 public class ClientsDAO {
     private final EntityManager manager;
 
+    @Autowired
     public ClientsDAO(EntityManager manager){
         this.manager = manager;
     }
@@ -45,4 +51,12 @@ public class ClientsDAO {
                 .getSingleResult();
         return contract.getClient();
     }
+
+     public Client findById(int clientId) {
+        return   manager.createQuery("FROM Client WHERE id = :p", Client.class)
+                .setParameter("p", clientId)
+                .getSingleResult();
+    }
+
+
 }

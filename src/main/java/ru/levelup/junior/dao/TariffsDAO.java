@@ -1,6 +1,9 @@
-package dao;
+package ru.levelup.junior.dao;
 
-import entities.Tariff;
+import ru.levelup.junior.entities.Tariff;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ru.levelup.junior.entities.Tariff;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -8,9 +11,11 @@ import java.util.List;
 /**
  * Created by otherz on 06.11.2019.
  */
+@Repository
 public class TariffsDAO {
     private final EntityManager manager;
 
+    @Autowired
     public TariffsDAO(EntityManager manager){
         this.manager = manager;
     }

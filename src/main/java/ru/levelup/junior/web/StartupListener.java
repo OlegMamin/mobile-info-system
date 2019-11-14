@@ -1,13 +1,17 @@
-package web;
+package ru.levelup.junior.web;
 
-import dao.ClientsDAO;
-import dao.ContractsDAO;
-import dao.OptionsDAO;
-import dao.TariffsDAO;
-import entities.Client;
-import entities.Contract;
-import entities.Option;
-import entities.Tariff;
+import ru.levelup.junior.entities.Option;
+import ru.levelup.junior.entities.Tariff;
+import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.OptionsDAO;
+import ru.levelup.junior.dao.ClientsDAO;
+import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.entities.Contract;
+import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.OptionsDAO;
+import ru.levelup.junior.entities.Option;
+import ru.levelup.junior.entities.Tariff;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -42,7 +46,7 @@ public class StartupListener implements ServletContextListener {
             Client client2 = new Client("Frank", "Lampard", 1005323232, "fr", "456");
             Tariff tariffLow = new Tariff("tariffLow", 100);
             Tariff tariffHigh = new Tariff("tariffHigh", 300);
-            Tariff tariffMedium = new Tariff("tariffMedium", 300);
+            Tariff tariffMedium = new Tariff("tariffMedium", 200);
             Contract contract1 = new Contract(7557755, client1, tariffLow);
             Contract contract2 = new Contract(1112233, client1, tariffHigh);
             Contract contract3 = new Contract(2322212, client1, tariffMedium);
