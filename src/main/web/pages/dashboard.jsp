@@ -50,7 +50,7 @@
     </style>
 </head>
 <body>
-    <h1>Welcome </h1>
+    <h1>Welcome, ${sessionScope['clientName']}!</h1>
 
     <table>
         <thead>

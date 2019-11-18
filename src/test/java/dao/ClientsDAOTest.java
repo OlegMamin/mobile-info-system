@@ -1,26 +1,26 @@
 package dao;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.ClientsDAO;
 import ru.levelup.junior.dao.ContractsDAO;
 import ru.levelup.junior.dao.TariffsDAO;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Tariff;
+import ru.levelup.junior.dao.ClientsDAO;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import ru.levelup.junior.web.configuration.TestConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
  * Created by otherz on 06.11.2019.
@@ -48,7 +48,7 @@ public class ClientsDAOTest {
 
     @Before
     public void setup() {
-        Client client1 = new Client("John", "Terry", 1234564145, "test", "12345");
+        Client client1 = new Client("John", "Terry", 1234564145, "test", "1234");
         clientsDAO.create(client1);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);

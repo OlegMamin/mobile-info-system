@@ -3,6 +3,7 @@ package ru.levelup.junior.web.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.levelup.junior.dao.ClientsDAO;
@@ -35,5 +36,48 @@ public class LoginController {
             model.addAttribute("login", "login");
             return "mainPage";
         }
+    }
+
+    @GetMapping(path = "/register")
+    public String registrationPage() {
+        return "registration";
+    }
+
+    @PostMapping(path = "/register")
+    public String registrationForm(
+            @RequestParam("name") String firstName,
+            @RequestParam("surname") String secondName,
+            @RequestParam("passport-number") String passportNumber,
+            @RequestParam String login,
+            @RequestParam String password,
+            @RequestParam("password-confirmation") String passwordConfirmation
+    ) {
+        if (firstName == null || firstName.length() < 2) {
+            throw new IllegalArgumentException("..");
+        }
+        if (secondName == null || secondName.length() < 2) {
+            throw new IllegalArgumentException("..");
+        }
+        if (passportNumber == null || passportNumber.length() < 6) {
+            throw new IllegalArgumentException("..");
+        }
+        if (login == null || login.length() < 4) {
+            throw new IllegalArgumentException("..");
+        }
+        if (password == null || password.length() < 4) {
+            throw new IllegalArgumentException("..");
+        }
+        if (passwordConfirmation == null || !passwordConfirmation.equals(password)) {
+            throw new IllegalArgumentException("..");
+        }
+
+        long passport = Long.parseLong(passportNumber);
+
+        try {
+            clientsDAO.create(new Client(firstName, secondName, passport, login, password));
+        } catch (Exception e) {
+            throw new IllegalArgumentException("..");
+        }
+        return "redirect:/";
     }
 }

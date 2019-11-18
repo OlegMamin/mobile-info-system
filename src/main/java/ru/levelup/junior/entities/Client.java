@@ -32,7 +32,7 @@ public class Client {
     @Column(unique = true, nullable = false, length = 32)
     private String login;
 
-    @Column(unique = true, nullable = false, length = 32)
+    @Column(nullable = false, length = 32)
     private String password;
 
     public Client() {
