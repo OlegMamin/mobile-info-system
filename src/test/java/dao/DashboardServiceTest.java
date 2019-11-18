@@ -18,6 +18,7 @@ import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
 import ru.levelup.junior.web.AppConfig;
 import ru.levelup.junior.web.DashboardService;
+import tests.TestConfig;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -26,7 +27,7 @@ import java.util.List;
  * Created by otherz on 14.11.2019.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class DashboardServiceTest {
     @Autowired
@@ -52,9 +53,9 @@ public class DashboardServiceTest {
     @Before
     public void setup() {
         manager.getTransaction().begin();
-        Client client1 = new Client("John", "Terry", 1234564145, "test", "123");
+        Client client1 = new Client("John", "Terry", 1234564145, "test", "1234");
         clientsDAO.create(client1);
-        Client client2 = new Client("Frank", "Lampard", 1005323232, "fr", "456");
+        Client client2 = new Client("Frank", "Lampard", 1005323232, "frog", "4567");
         clientsDAO.create(client2);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);

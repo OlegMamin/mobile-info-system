@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import ru.levelup.junior.web.AppConfig;
 import ru.levelup.junior.web.DashboardService;
+import tests.TestConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -33,7 +34,7 @@ import static org.junit.Assert.*;
  * Created by otherz on 06.11.2019.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = AppConfig.class)
+@ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TariffsDAOTest {
 

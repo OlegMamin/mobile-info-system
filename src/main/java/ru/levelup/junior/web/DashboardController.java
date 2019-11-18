@@ -19,7 +19,7 @@ public class DashboardController {
     @Autowired
     private DashboardService dashboardService;
 
-    @GetMapping(params = "/dashboard")
+    @GetMapping(path = "/dashboard")
     public String dashboard(HttpSession session, ModelMap model) {
         try {
             int clientId = (int) session.getAttribute("clientId");

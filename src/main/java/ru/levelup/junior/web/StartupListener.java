@@ -26,11 +26,11 @@ import javax.servlet.annotation.WebListener;
 /**
  * Created by otherz on 11.11.2019.
  */
-@WebListener
-public class StartupListener implements ServletContextListener {
-    @Override
+
+public class StartupListener {
+
     public void contextInitialized(ServletContextEvent event) {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("TestPersistenceUnit");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("ProdPersistenceUnit");
         EntityManager manager = factory.createEntityManager();
         manager.getTransaction().begin();
 
@@ -42,8 +42,8 @@ public class StartupListener implements ServletContextListener {
         try {
             clientsDAO.findByLogin("test");
         } catch (NoResultException notFound) {
-            Client client1 = new Client("John", "Terry", 1234564145, "test", "123");
-            Client client2 = new Client("Frank", "Lampard", 1005323232, "fr", "456");
+            Client client1 = new Client("John", "Terry", 1234564145, "test", "1234");
+            Client client2 = new Client("Frank", "Lampard", 1005323232, "frog", "4567");
             Tariff tariffLow = new Tariff("tariffLow", 100);
             Tariff tariffHigh = new Tariff("tariffHigh", 300);
             Tariff tariffMedium = new Tariff("tariffMedium", 200);
@@ -80,7 +80,7 @@ public class StartupListener implements ServletContextListener {
         event.getServletContext().setAttribute("factory", factory);
     }
 
-    @Override
+
     public void contextDestroyed(ServletContextEvent event) {
         EntityManagerFactory factory = getFactory(event.getServletContext());
 

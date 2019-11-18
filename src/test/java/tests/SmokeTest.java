@@ -1,5 +1,10 @@
 package tests;
 
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.levelup.junior.entities.Client;
 import org.junit.After;
 import org.junit.Assert;
@@ -13,25 +18,12 @@ import javax.persistence.Persistence;
 /**
  * Created by otherz on 01.11.2019.
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestConfig.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class SmokeTest {
-    private EntityManagerFactory factory;
+    @Autowired
     private EntityManager manager;
-
-    @Before
-    public void setup() {
-        factory = Persistence.createEntityManagerFactory("TestPersistenceUnit");
-        manager = factory.createEntityManager();
-    }
-
-    @After
-    public void cleanup() {
-        if (manager != null) {
-            manager.close();
-        }
-        if (factory != null) {
-            factory.close();
-        }
-    }
 
     @Test
     public void testCreateAccount() throws Exception {

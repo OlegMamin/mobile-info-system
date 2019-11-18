@@ -16,7 +16,7 @@ import javax.persistence.Persistence;
 public class AppConfig {
     @Bean
     public EntityManagerFactory getEntityManagerFactory() {
-        return Persistence.createEntityManagerFactory("TestPersistenceUnit");
+        return Persistence.createEntityManagerFactory("ProdPersistenceUnit");
     }
 
     @Bean

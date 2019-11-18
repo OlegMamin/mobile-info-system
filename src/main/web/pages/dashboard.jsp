@@ -72,7 +72,7 @@
                 <td>${contract.client.firstName}</td>
                 <td>${contract.client.lastName}</td>
             </tr>
-                </c:forEach>
+            </c:forEach>
 
         </tbody>
     </table>
