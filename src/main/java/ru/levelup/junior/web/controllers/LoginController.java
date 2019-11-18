@@ -1,4 +1,4 @@
-package ru.levelup.junior.web;
+package ru.levelup.junior.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

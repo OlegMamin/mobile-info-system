@@ -1,27 +1,35 @@
 package ru.levelup.junior.dao;
 
-import ru.levelup.junior.entities.Client;
-import ru.levelup.junior.entities.Contract;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 /**
  * Created by otherz on 06.11.2019.
  */
 @Repository
 public class ClientsDAO {
-    private final EntityManager manager;
 
-    @Autowired
+    @PersistenceContext
+    private EntityManager manager;
+
+    public ClientsDAO() {
+    }
+
     public ClientsDAO(EntityManager manager){
         this.manager = manager;
     }
 
+    @Transactional
     public void create(Client client) {
+        if (client.getPassportNumber() <= 0) {
+            throw new IllegalArgumentException(
+                    "Client with negative passport number is not valid");
+        }
         manager.persist(client);
     }
 

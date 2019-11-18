@@ -4,29 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-import ru.levelup.junior.entities.Option;
-import ru.levelup.junior.entities.Tariff;
+import org.springframework.transaction.annotation.Transactional;
+import ru.levelup.junior.dao.ClientsDAO;
 import ru.levelup.junior.dao.ContractsDAO;
 import ru.levelup.junior.dao.OptionsDAO;
-import ru.levelup.junior.dao.ClientsDAO;
 import ru.levelup.junior.dao.TariffsDAO;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
-import ru.levelup.junior.dao.ContractsDAO;
-import ru.levelup.junior.dao.OptionsDAO;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-import javax.servlet.annotation.WebListener;
-import java.util.Date;
-import java.util.Random;
+import javax.persistence.PersistenceContext;
 
 
 /**
@@ -47,9 +37,10 @@ public class StartupListener {
     @Autowired
     private OptionsDAO optionsDAO;
 
-    @Autowired
+    @PersistenceContext
     private EntityManager manager;
 
+    @Transactional
     @EventListener
     public void handleContextRefreshEvent(ContextRefreshedEvent ctxStartEvt) {
         Client firstClient;
@@ -64,13 +55,21 @@ public class StartupListener {
         Option option1;
         Option option2;
 
-        manager.getTransaction().begin();
         try {
             firstClient = clientsDAO.findByLogin("test");
             secondClient = clientsDAO.findByLogin("second");
+            tariffLow = tariffsDAO.findByName("tariffLow");
+            tariffMedium = tariffsDAO.findByName("tariffMedium");
+            tariffHigh = tariffsDAO.findByName("tariffHigh");
+            contract1 = contractsDAO.findByPhoneNumber(7557755);
+            contract2 = contractsDAO.findByPhoneNumber(1112233);
+            contract3 = contractsDAO.findByPhoneNumber(2322212);
+            contract4 = contractsDAO.findByPhoneNumber(4666666);
+            option1 = optionsDAO.findByName("option1");
+            option1 = optionsDAO.findByName("option2");
         } catch (NoResultException notFound) {
             firstClient = new Client("John", "Terry", 1234564145, "test", "1234");
-            secondClient = new Client("Frank", "Lampard", 1005323232, "frog", "4567");
+            secondClient = new Client("Frank", "Lampard", 1005323232, "second", "4567");
             tariffLow = new Tariff("tariffLow", 100);
             tariffHigh = new Tariff("tariffHigh", 300);
             tariffMedium = new Tariff("tariffMedium", 200);
@@ -78,8 +77,8 @@ public class StartupListener {
             contract2 = new Contract(1112233, firstClient, tariffHigh);
             contract3 = new Contract(2322212, firstClient, tariffMedium);
             contract4 = new Contract(4666666, secondClient, tariffHigh);
-            option1 = new Option("testDao1", 10, 3);
-            option2 = new Option("testDao2", 12, 4);
+            option1 = new Option("option1", 10, 3);
+            option2 = new Option("option2", 12, 4);
 
             contract1.getOptions().add(option1);
             contract1.getOptions().add(option2);
@@ -99,8 +98,6 @@ public class StartupListener {
             contractsDAO.create(contract4);
             optionsDAO.create(option1);
             optionsDAO.create(option2);
-
-            manager.getTransaction().commit();
         }
     }
 }

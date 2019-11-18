@@ -1,16 +1,11 @@
-package tests;
+package ru.levelup.junior.web.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
-import ru.levelup.junior.web.AppConfig;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import ru.levelup.junior.web.StartupListener;
-import ru.levelup.junior.web.WebConfig;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 
 /**
  * Created by otherz on 18.11.2019.
@@ -23,12 +18,9 @@ import javax.persistence.Persistence;
 })
 public class TestConfig {
     @Bean
-    public EntityManagerFactory getEntityManagerFactory() {
-        return Persistence.createEntityManagerFactory("TestPersistenceUnit");
-    }
-
-    @Bean
-    public EntityManager getEntityManager(EntityManagerFactory factory) {
-        return factory.createEntityManager();
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
+        LocalContainerEntityManagerFactoryBean bean = new LocalContainerEntityManagerFactoryBean();
+        bean.setPersistenceUnitName("TestPersistenceUnit");
+        return bean;
     }
 }

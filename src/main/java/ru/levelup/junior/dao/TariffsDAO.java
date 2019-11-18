@@ -1,11 +1,11 @@
 package ru.levelup.junior.dao;
 
-import ru.levelup.junior.entities.Tariff;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Tariff;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -13,14 +13,22 @@ import java.util.List;
  */
 @Repository
 public class TariffsDAO {
-    private final EntityManager manager;
+    @PersistenceContext
+    private EntityManager manager;
 
-    @Autowired
+    public TariffsDAO() {
+    }
+
     public TariffsDAO(EntityManager manager){
         this.manager = manager;
     }
 
+    @Transactional
     public void create(Tariff tariff) {
+        if (tariff.getPrice() < 0) {
+            throw new IllegalArgumentException(
+                    "Tariff with negative price is not allowed");
+        }
         manager.persist(tariff);
     }
 

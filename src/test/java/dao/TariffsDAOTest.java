@@ -1,34 +1,23 @@
 package dao;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.ClientsDAO;
-import ru.levelup.junior.dao.ContractsDAO;
-import ru.levelup.junior.dao.OptionsDAO;
-import ru.levelup.junior.entities.Client;
-import ru.levelup.junior.entities.Contract;
-import ru.levelup.junior.entities.Option;
-import ru.levelup.junior.entities.Tariff;
 import ru.levelup.junior.dao.TariffsDAO;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import ru.levelup.junior.web.AppConfig;
-import ru.levelup.junior.web.DashboardService;
-import tests.TestConfig;
+import ru.levelup.junior.entities.Tariff;
+import ru.levelup.junior.web.configuration.TestConfig;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.NoResultException;
-import javax.persistence.Persistence;
-
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 /**
  * Created by otherz on 06.11.2019.
@@ -41,15 +30,13 @@ public class TariffsDAOTest {
     @Autowired
     private TariffsDAO tariffsDAO;
 
-    @Autowired
+    @PersistenceContext
     private EntityManager manager;
 
     private Tariff tariff;
 
     @Before
     public void setup() {
-        manager.getTransaction().begin();
-
         Tariff tariffLow = new Tariff("tariffLow", 100);
         tariffsDAO.create(tariffLow);
         Tariff tariffHigh = new Tariff("tariffHigh", 300);
@@ -66,7 +53,6 @@ public class TariffsDAOTest {
 
     @Test
     public void findByName() throws Exception {
-
         Tariff found = tariffsDAO.findByName(tariff.getName());
 
         Assert.assertNotNull(found);
@@ -82,12 +68,9 @@ public class TariffsDAOTest {
 
     @Test
     public void findByPriceInterval() throws Exception {
-
         List<Tariff> found = tariffsDAO.findByPriceInterval(90, 210);
 
         Assert.assertEquals(2, found.size());
         Assert.assertEquals(tariff.getId(), found.get(0).getId());
-
     }
-
 }

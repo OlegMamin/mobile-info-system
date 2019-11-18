@@ -16,11 +16,9 @@ import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
-import ru.levelup.junior.web.AppConfig;
 import ru.levelup.junior.web.DashboardService;
-import tests.TestConfig;
+import ru.levelup.junior.web.configuration.TestConfig;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
@@ -45,15 +43,11 @@ public class DashboardServiceTest {
     @Autowired
     private OptionsDAO optionsDAO;
 
-    @Autowired
-    private EntityManager manager;
-
     private int clientId;
 
     @Before
     public void setup() {
-        manager.getTransaction().begin();
-        Client client1 = new Client("John", "Terry", 1234564145, "test", "1234");
+        Client client1 = new Client("John", "Terry", 1234564145, "test", "12345");
         clientsDAO.create(client1);
         Client client2 = new Client("Frank", "Lampard", 1005323232, "frog", "4567");
         clientsDAO.create(client2);

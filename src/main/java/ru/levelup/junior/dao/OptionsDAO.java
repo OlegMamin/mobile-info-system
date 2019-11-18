@@ -1,11 +1,11 @@
 package ru.levelup.junior.dao;
 
-import ru.levelup.junior.entities.Option;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Option;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -13,14 +13,22 @@ import java.util.List;
  */
 @Repository
 public class OptionsDAO {
-    private final EntityManager manager;
+    @PersistenceContext
+    private EntityManager manager;
 
-    @Autowired
+    public OptionsDAO() {
+    }
+
     public OptionsDAO(EntityManager manager){
         this.manager = manager;
     }
 
+    @Transactional
     public void create(Option option) {
+        if (option.getCostOfConnection() < 0 || option.getMonthlyPayment() < 0) {
+            throw new IllegalArgumentException(
+                    "Options with negative costs is not allowed");
+        }
         manager.persist(option);
     }
 

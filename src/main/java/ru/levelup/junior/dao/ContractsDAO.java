@@ -1,11 +1,12 @@
 package ru.levelup.junior.dao;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 /**
@@ -13,14 +14,26 @@ import java.util.List;
  */
 @Repository
 public class ContractsDAO {
-    private final EntityManager manager;
+    @PersistenceContext
+    private EntityManager manager;
 
-    @Autowired
+    public ContractsDAO() {
+    }
+
     public ContractsDAO(EntityManager manager){
         this.manager = manager;
     }
 
+    @Transactional
     public void create(Contract contract) {
+        if (contract.getClient() == null) {
+            throw new IllegalArgumentException(
+                    "Contract without client is not valid");
+        }
+        if (contract.getTariff() == null) {
+            throw new IllegalArgumentException(
+                    "Contract without tariff is not valid");
+        }
         manager.persist(contract);
     }
 
