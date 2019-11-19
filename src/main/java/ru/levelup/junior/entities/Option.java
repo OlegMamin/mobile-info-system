@@ -1,6 +1,9 @@
 package ru.levelup.junior.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "options")
@@ -10,12 +13,15 @@ public class Option {
     private int id;
 
     @Column(nullable = false, length = 64, unique = true)
+    @Size(min = 2)
     private String name;
 
     @Column
+    @PositiveOrZero
     private double costOfConnection;
 
     @Column
+    @PositiveOrZero
     private double monthlyPayment;
 
     public Option() {

@@ -3,11 +3,16 @@ package ru.levelup.junior.web.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.levelup.junior.dao.ClientsDAO;
 import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.web.RegistrationFormBean;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
@@ -45,39 +50,41 @@ public class LoginController {
 
     @PostMapping(path = "/register")
     public String registrationForm(
-            @RequestParam("name") String firstName,
-            @RequestParam("surname") String secondName,
-            @RequestParam("passport-number") String passportNumber,
-            @RequestParam String login,
-            @RequestParam String password,
-            @RequestParam("password-confirmation") String passwordConfirmation
+            @Validated
+            @ModelAttribute("form") RegistrationFormBean form,
+            BindingResult result
     ) {
-        if (firstName == null || firstName.length() < 2) {
-            throw new IllegalArgumentException("..");
-        }
-        if (secondName == null || secondName.length() < 2) {
-            throw new IllegalArgumentException("..");
-        }
-        if (passportNumber == null || passportNumber.length() < 6) {
-            throw new IllegalArgumentException("..");
-        }
-        if (login == null || login.length() < 4) {
-            throw new IllegalArgumentException("..");
-        }
-        if (password == null || password.length() < 4) {
-            throw new IllegalArgumentException("..");
-        }
-        if (passwordConfirmation == null || !passwordConfirmation.equals(password)) {
-            throw new IllegalArgumentException("..");
+        if (form.getPasswordConfirmation() == null || !form.getPasswordConfirmation().equals(form.getPassword())) {
+            result.addError(new FieldError("form", "passwordConfirmation",
+                    "Confirmation doesn't match."));
         }
 
-        long passport = Long.parseLong(passportNumber);
+        if (result.hasErrors()) {
+            return "registration";
+        }
+
+        long passport = Long.parseLong(form.getPassportNumber());
 
         try {
-            clientsDAO.create(new Client(firstName, secondName, passport, login, password));
+            clientsDAO.create(new Client(
+                    form.getFirstName(), form.getSecondName(), passport, form.getLogin(), form.getPassword()));
         } catch (Exception e) {
-            throw new IllegalArgumentException("..");
+            result.addError(new FieldError("form", "login",
+                    "Client with this login is already registered."));
         }
+
         return "redirect:/";
+    }
+
+    @ModelAttribute("form")
+    public RegistrationFormBean newFormBean() {
+        RegistrationFormBean bean = new RegistrationFormBean();
+        bean.setFirstName("");
+        bean.setSecondName("");
+        bean.setPassportNumber("");
+        bean.setLogin("");
+        bean.setPassword("");
+        bean.setPasswordConfirmation("");
+        return bean;
     }
 }

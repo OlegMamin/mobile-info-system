@@ -1,31 +1,39 @@
 
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>Registration</title>
 </head>
 <body>
-    <form action="/register" method="post">
+    <form:form action="/register" method="post" modelAttribute="form">
         <p>Name:
-            <input type="text" name="name"/>
+            <form:input type="text" path="firstName"/>
+            <form:errors path="firstName" cssStyle="color: firebrick" />
         </p>
         <p>Surname:
-            <input type="text" name="surname"/>
+            <form:input type="text" path="secondName" />
+            <form:errors path="secondName" cssStyle="color: firebrick" />
         </p>
         <p>Passport number:
-            <input type="text" name="passport-number"/>
+            <form:input type="text" path="passportNumber" />
+            <form:errors path="passportNumber" cssStyle="color: firebrick" />
         </p>
         <p>Login:
-            <input type="text" name="login"/>
+            <form:input type="text" path="login" />
+            <form:errors path="login" cssStyle="color: firebrick" />
         </p>
         <p>Password:
-            <input type="password" name="password"/>
+            <form:password path="password" />
+            <form:errors path="password" cssStyle="color: firebrick" />
         </p>
         <p>Confirm password:
-            <input type="password" name="password-confirmation"/>
+            <form:password path="passwordConfirmation" />
+            <form:errors path="passwordConfirmation" cssStyle="color: firebrick" />
         </p>
 
         <input type="submit" value="Register">
-    </form>
+    </form:form>
 </body>
 </html>

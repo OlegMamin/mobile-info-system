@@ -1,6 +1,10 @@
 package ru.levelup.junior.entities;
 
+import org.springframework.format.annotation.NumberFormat;
+
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -13,6 +17,7 @@ public class Contract {
     private int id;
 
     @Column
+    @Positive
     private long phoneNumber;
 
     @ManyToOne(optional = false)

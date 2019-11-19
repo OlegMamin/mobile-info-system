@@ -1,6 +1,9 @@
 package ru.levelup.junior.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "tariffs")
@@ -10,9 +13,11 @@ public class Tariff {
     private int id;
 
     @Column(unique = true, nullable = false, length = 32)
+    @Size(min = 2)
     private String name;
 
     @Column
+    @Positive
     private double price;
 
 

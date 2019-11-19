@@ -1,6 +1,7 @@
 package ru.levelup.junior.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -11,28 +12,35 @@ public class Client {
     private int id;
 
     @Column(length = 32)
+    @Size(min = 2)
     private String firstName;
 
     @Column(length = 32)
+    @Size(min = 2)
     private String lastName;
 
     @Column()
     @Temporal(TemporalType.DATE)
+    @Past
     private Date birthDate;
 
     @Column(nullable = false, unique = true, length = 10)
+    @Positive
     private long passportNumber;
 
     @Column
     private String address;
 
     @Column(unique = true)
+    @Email
     private String eMail;
 
     @Column(unique = true, nullable = false, length = 32)
+    @Size(min = 4)
     private String login;
 
     @Column(nullable = false, length = 32)
+    @Size(min = 4)
     private String password;
 
     public Client() {
