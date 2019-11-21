@@ -61,22 +61,24 @@ public class StartupListener {
             tariffLow = tariffsDAO.findByName("tariffLow");
             tariffMedium = tariffsDAO.findByName("tariffMedium");
             tariffHigh = tariffsDAO.findByName("tariffHigh");
-            contract1 = contractsDAO.findByPhoneNumber(7557755);
-            contract2 = contractsDAO.findByPhoneNumber(1112233);
-            contract3 = contractsDAO.findByPhoneNumber(2322212);
-            contract4 = contractsDAO.findByPhoneNumber(4666666);
+            contract1 = contractsDAO.findByPhoneNumber("7557755");
+            contract2 = contractsDAO.findByPhoneNumber("1112233");
+            contract3 = contractsDAO.findByPhoneNumber("2322212");
+            contract4 = contractsDAO.findByPhoneNumber("4666666");
             option1 = optionsDAO.findByName("option1");
             option1 = optionsDAO.findByName("option2");
         } catch (NoResultException notFound) {
-            firstClient = new Client("John", "Terry", 1234564145, "test", "1234");
-            secondClient = new Client("Frank", "Lampard", 1005323232, "second", "4567");
+            firstClient = new Client("John", "Terry"
+                    , "1234564145", "test", "1234");
+            secondClient = new Client("Frank", "Lampard"
+                    , "1005323232", "second", "4567");
             tariffLow = new Tariff("tariffLow", 100);
             tariffHigh = new Tariff("tariffHigh", 300);
             tariffMedium = new Tariff("tariffMedium", 200);
-            contract1 = new Contract(7557755, firstClient, tariffLow);
-            contract2 = new Contract(1112233, firstClient, tariffHigh);
-            contract3 = new Contract(2322212, firstClient, tariffMedium);
-            contract4 = new Contract(4666666, secondClient, tariffHigh);
+            contract1 = new Contract("7557755", firstClient, tariffLow);
+            contract2 = new Contract("1112233", firstClient, tariffHigh);
+            contract3 = new Contract("2322212", firstClient, tariffMedium);
+            contract4 = new Contract("4666666", secondClient, tariffHigh);
             option1 = new Option("option1", 10, 3);
             option2 = new Option("option2", 12, 4);
 

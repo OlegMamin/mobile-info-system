@@ -26,9 +26,9 @@ public class ClientsDAO {
 
     @Transactional
     public void create(Client client) {
-        if (client.getPassportNumber() <= 0) {
+        if (!client.getPassportNumber().matches("[0-9a-zA-Z]*")) {
             throw new IllegalArgumentException(
-                    "Client with negative passport number is not valid");
+                    "Client with invalid passport number is not allowed");
         }
         manager.persist(client);
     }
@@ -47,13 +47,13 @@ public class ClientsDAO {
                 .getSingleResult();
     }
 
-    public Client findByPassportNumber(long passportNumber){
+    public Client findByPassportNumber(String passportNumber){
         return manager.createQuery("FROM Client WHERE passportNumber = :p", Client.class)
                 .setParameter("p", passportNumber)
                 .getSingleResult();
     }
 
-    public Client findByPhoneNumber(long phoneNumber) {
+    public Client findByPhoneNumber(String phoneNumber) {
         Contract contract =  manager.createQuery("FROM Contract WHERE phoneNumber = :p", Contract.class)
                 .setParameter("p", phoneNumber)
                 .getSingleResult();

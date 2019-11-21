@@ -47,9 +47,11 @@ public class DashboardServiceTest {
 
     @Before
     public void setup() {
-        Client client1 = new Client("John", "Terry", 1234564145, "test", "12345");
+        Client client1 = new Client("John", "Terry"
+                , "1234564145", "test", "12345");
         clientsDAO.create(client1);
-        Client client2 = new Client("Frank", "Lampard", 1005323232, "frog", "4567");
+        Client client2 = new Client("Frank", "Lampard"
+                , "1005323232", "frog", "4567");
         clientsDAO.create(client2);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
@@ -59,13 +61,13 @@ public class DashboardServiceTest {
         Tariff tariffMedium = new Tariff("tariffMedium", 200);
         tariffsDAO.create(tariffMedium);
 
-        Contract contract1 = new Contract(7557755, client1, tariffLow);
+        Contract contract1 = new Contract("7557755", client1, tariffLow);
         contractsDAO.create(contract1);
-        Contract contract2 = new Contract(1112233, client1, tariffHigh);
+        Contract contract2 = new Contract("1112233", client1, tariffHigh);
         contractsDAO.create(contract2);
-        Contract contract3 = new Contract(2322212, client1, tariffMedium);
+        Contract contract3 = new Contract("2322212", client1, tariffMedium);
         contractsDAO.create(contract3);
-        Contract contract4 = new Contract(4666666, client2, tariffHigh);
+        Contract contract4 = new Contract("4666666", client2, tariffHigh);
         contractsDAO.create(contract4);
 
         Option option1 = new Option("testDao1", 10, 3);

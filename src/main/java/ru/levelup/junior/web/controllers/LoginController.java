@@ -63,11 +63,9 @@ public class LoginController {
             return "registration";
         }
 
-        long passport = Long.parseLong(form.getPassportNumber());
-
         try {
             clientsDAO.create(new Client(
-                    form.getFirstName(), form.getSecondName(), passport, form.getLogin(), form.getPassword()));
+                    form.getFirstName(), form.getSecondName(), form.getPassportNumber(), form.getLogin(), form.getPassword()));
         } catch (Exception e) {
             result.addError(new FieldError("form", "login",
                     "Client with this login is already registered."));

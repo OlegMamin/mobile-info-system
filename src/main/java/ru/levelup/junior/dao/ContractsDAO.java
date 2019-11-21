@@ -37,7 +37,7 @@ public class ContractsDAO {
         manager.persist(contract);
     }
 
-    public Contract findByPhoneNumber(long phoneNumber){
+    public Contract findByPhoneNumber(String phoneNumber){
         return manager.createQuery("FROM Contract WHERE phoneNumber = :p", Contract.class)
                 .setParameter("p", phoneNumber)
                 .getSingleResult();

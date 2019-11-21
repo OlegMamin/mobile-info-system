@@ -25,8 +25,7 @@ public class Client {
     private Date birthDate;
 
     @Column(nullable = false, unique = true, length = 10)
-    @Positive
-    private long passportNumber;
+    private String passportNumber;
 
     @Column
     private String address;
@@ -46,7 +45,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, long passportNumber, String login, String password) {
+    public Client(String firstName, String lastName, String passportNumber, String login, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.passportNumber = passportNumber;
@@ -86,11 +85,11 @@ public class Client {
         this.birthDate = birthDate;
     }
 
-    public long getPassportNumber() {
+    public String getPassportNumber() {
         return passportNumber;
     }
 
-    public void setPassportNumber(long passportNumber) {
+    public void setPassportNumber(String passportNumber) {
         this.passportNumber = passportNumber;
     }
 

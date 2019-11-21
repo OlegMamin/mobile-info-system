@@ -17,8 +17,8 @@ public class Contract {
     private int id;
 
     @Column
-    @Positive
-    private long phoneNumber;
+    @Size(min = 4)
+    private String phoneNumber;
 
     @ManyToOne(optional = false)
     private Client client;
@@ -27,16 +27,19 @@ public class Contract {
     private Tariff tariff;
 
     @ManyToMany
-    private Set<Option> options;
+    private Set<Option> options = new HashSet<>();
 
     public Contract() {
     }
 
-    public Contract(long phoneNumber, Client client, Tariff tariff) {
+    public Contract(String phoneNumber, Tariff tariff) {
         this.phoneNumber = phoneNumber;
-        this.client = client;
         this.tariff = tariff;
-        this.options = new HashSet<>();
+    }
+
+    public Contract(String phoneNumber, Client client, Tariff tariff) {
+        this(phoneNumber, tariff);
+        this.client = client;
     }
     public Set<Option> getOptions() {
         return options;
@@ -54,11 +57,11 @@ public class Contract {
         this.tariff = tariff;
     }
 
-    public long getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(long phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

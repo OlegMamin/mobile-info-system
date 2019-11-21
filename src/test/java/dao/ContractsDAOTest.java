@@ -49,13 +49,14 @@ public class ContractsDAOTest {
 
     @Before
     public void setup() {
-        Client client1 = new Client("John", "Terry", 1234564145, "test", "12345");
+        Client client1 = new Client("John", "Terry"
+                , "1234564145", "test", "12345");
         clientsDAO.create(client1);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
         tariffsDAO.create(tariffLow);
 
-        Contract contract1 = new Contract(7557755, client1, tariffLow);
+        Contract contract1 = new Contract("7557755", client1, tariffLow);
         contractsDAO.create(contract1);
 
         this.client = client1;
@@ -75,7 +76,7 @@ public class ContractsDAOTest {
         Assert.assertEquals(contract.getId(), found.getId());
 
         try {
-            contractsDAO.findByPhoneNumber(1234567);
+            contractsDAO.findByPhoneNumber("1234567");
             fail("Option fakeName shouldn't be found");
         } catch (NoResultException expected) {
 

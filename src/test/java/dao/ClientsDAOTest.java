@@ -48,13 +48,14 @@ public class ClientsDAOTest {
 
     @Before
     public void setup() {
-        Client client1 = new Client("John", "Terry", 1234564145, "test", "1234");
+        Client client1 = new Client("John", "Terry"
+                , "1234564145", "test", "1234");
         clientsDAO.create(client1);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
         tariffsDAO.create(tariffLow);
 
-        Contract contract1 = new Contract(7557755, client1, tariffLow);
+        Contract contract1 = new Contract("7557755", client1, tariffLow);
         contractsDAO.create(contract1);
 
         this.client = client1;
@@ -107,7 +108,7 @@ public class ClientsDAOTest {
         Assert.assertEquals(client.getId(), found.getId());
 
         try {
-            clientsDAO.findByPassportNumber(12345);
+            clientsDAO.findByPassportNumber("12345");
             fail("User with invalid passportNumber shouldn't be found");
         } catch (NoResultException expected) {
 
@@ -123,7 +124,7 @@ public class ClientsDAOTest {
         Assert.assertEquals(client.getId(), found.getId());
 
         try {
-            clientsDAO.findByPhoneNumber(12345);
+            clientsDAO.findByPhoneNumber("12345");
             fail("User with invalid phone number shouldn't be found");
         } catch (NoResultException expected) {
 
