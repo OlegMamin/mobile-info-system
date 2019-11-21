@@ -62,13 +62,9 @@ public class DashboardServiceTest {
         tariffsDAO.create(tariffMedium);
 
         Contract contract1 = new Contract("7557755", client1, tariffLow);
-        contractsDAO.create(contract1);
         Contract contract2 = new Contract("1112233", client1, tariffHigh);
-        contractsDAO.create(contract2);
         Contract contract3 = new Contract("2322212", client1, tariffMedium);
-        contractsDAO.create(contract3);
         Contract contract4 = new Contract("4666666", client2, tariffHigh);
-        contractsDAO.create(contract4);
 
         Option option1 = new Option("testDao1", 10, 3);
         optionsDAO.create(option1);
@@ -82,6 +78,10 @@ public class DashboardServiceTest {
         contract3.getOptions().add(option2);
         contract4.getOptions().add(option2);
 
+        contractsDAO.create(contract1);
+        contractsDAO.create(contract2);
+        contractsDAO.create(contract3);
+        contractsDAO.create(contract4);
         clientId = client1.getId();
     }
 
