@@ -26,7 +26,6 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class OptionsDAOTest {
-
     @Autowired
     private OptionsDAO optionsDAO;
 
@@ -44,11 +43,11 @@ public class OptionsDAOTest {
 
         this.option = option1;
     }
+
     @Test
     public void create() throws Exception {
         Assert.assertNotNull(manager.find(Option.class, option.getId()));
     }
-
     @Test
     public void findByName() throws Exception {
         Option found = optionsDAO.findByName(option.getName());
@@ -62,6 +61,12 @@ public class OptionsDAOTest {
         } catch (NoResultException expected) {
 
         }
+    }
+
+    @Test
+    public void findById() throws Exception {
+        Option found = optionsDAO.findById(option.getId());
+        Assert.assertNotNull(found);
     }
 
     @Test

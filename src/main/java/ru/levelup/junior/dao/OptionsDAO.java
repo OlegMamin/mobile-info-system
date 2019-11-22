@@ -38,6 +38,10 @@ public class OptionsDAO {
                 .getSingleResult();
 
     }
+    public Option findById(int id){
+
+        return manager.find(Option.class, id);
+    }
     public List<Option> findByMonthlyPaymentInterval(double minPrice, double maxPrice){
 
         if (minPrice >=  maxPrice) {

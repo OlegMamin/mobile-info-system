@@ -5,7 +5,9 @@ import org.springframework.format.annotation.NumberFormat;
 import javax.persistence.*;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -20,20 +22,24 @@ public class Contract {
     @Size(min = 4)
     private String phoneNumber;
 
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Client client;
 
     @ManyToOne
     private Tariff tariff;
 
-    @ManyToMany
-    private Set<Option> options = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
+    private List<Option> options = new ArrayList<>();
 
     public Contract() {
     }
 
-    public Contract(String phoneNumber, Tariff tariff) {
+    public Contract(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Contract(@Size(min = 4) String phoneNumber, Tariff tariff) {
+        this(phoneNumber);
         this.tariff = tariff;
     }
 
@@ -41,11 +47,11 @@ public class Contract {
         this(phoneNumber, tariff);
         this.client = client;
     }
-    public Set<Option> getOptions() {
+    public List<Option> getOptions() {
         return options;
     }
 
-    public void setOptions(Set<Option> options) {
+    public void setOptions(List<Option> options) {
         this.options = options;
     }
 

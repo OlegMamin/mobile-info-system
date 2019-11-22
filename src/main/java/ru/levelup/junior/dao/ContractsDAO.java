@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
+import ru.levelup.junior.entities.Option;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,14 +27,7 @@ public class ContractsDAO {
 
     @Transactional
     public void create(Contract contract) {
-        if (contract.getClient() == null) {
-            throw new IllegalArgumentException(
-                    "Contract without client is not valid");
-        }
-        if (contract.getTariff() == null) {
-            throw new IllegalArgumentException(
-                    "Contract without tariff is not valid");
-        }
+
         manager.persist(contract);
     }
 
@@ -51,6 +45,30 @@ public class ContractsDAO {
 
     }
 
+    public Contract findById(int contractId){
+        return manager.createQuery("FROM Contract WHERE id = :p", Contract.class)
+                .setParameter("p", contractId)
+                .getSingleResult();
 
+    }
+    @Transactional
+    public void removeOption(int contractId, int optionId){
+        Contract contract = findById(contractId);
+        Option found = manager.find(Option.class, optionId);
+        contract.getOptions().remove(found);
+        manager.persist(contract);
+    }
 
+    @Transactional
+    public void blockTariff(int contractId){
+        Contract contract = findById(contractId);
+        contract.setTariff(null);
+        manager.persist(contract);
+    }
+    @Transactional
+    public void terminateContract(int contractId){
+        Contract contract = findById(contractId);
+        contract.setClient(null);
+        manager.persist(contract);
+    }
 }
