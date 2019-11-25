@@ -26,10 +26,6 @@ public class ClientsDAO {
 
     @Transactional
     public void create(Client client) {
-        if (!client.getPassportNumber().matches("[0-9a-zA-Z]*")) {
-            throw new IllegalArgumentException(
-                    "Client with invalid passport number is not allowed");
-        }
         manager.persist(client);
     }
 

@@ -14,7 +14,7 @@ import ru.levelup.junior.dao.ClientsDAO;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import ru.levelup.junior.web.configuration.TestConfig;
+import configuration.TestConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

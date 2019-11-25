@@ -17,7 +17,7 @@ public class RegistrationFormBean {
     private String secondName;
 
     @Size(min = 4, max = 10, message = "Passport number length should be at least 4 and at most 10 digits.")
-    @Pattern(regexp = "[0-9]*", message = "Login should consist of digits.")
+    @Pattern(regexp = "[0-9a-zA-Z]*", message = "Login should consist of digits.")
     private String passportNumber;
 
     @Size(min = 4, max = 32, message = "Login length should be at least 4 and at most 32 characters.")

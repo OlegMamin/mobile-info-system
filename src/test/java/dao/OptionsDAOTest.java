@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.levelup.junior.dao.OptionsDAO;
 import ru.levelup.junior.entities.Option;
-import ru.levelup.junior.web.configuration.TestConfig;
+import configuration.TestConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;

@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.levelup.junior.dao.TariffsDAO;
 import ru.levelup.junior.entities.Tariff;
-import ru.levelup.junior.web.configuration.TestConfig;
+import configuration.TestConfig;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
