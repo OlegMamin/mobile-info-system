@@ -25,7 +25,9 @@
         <c:forEach items="${contractsToChose}" var="contractTo">
             <tr>
                 <td>${contractTo.phoneNumber}</td>
-                <td>Add</td>
+                <td>
+                    <a href="/addContract?phoneNumber=${contractTo.phoneNumber}">Add</a>
+                </td>
             </tr>
         </c:forEach>
 

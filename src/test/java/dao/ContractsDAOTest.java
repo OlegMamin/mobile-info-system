@@ -17,6 +17,7 @@ import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
 import configuration.TestConfig;
+import ru.levelup.junior.web.DashboardService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -32,8 +33,8 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ContractsDAOTest {
-
-
+    @Autowired
+    private DashboardService dashboardService;
     @Autowired
     private ClientsDAO clientsDAO;
 
@@ -51,7 +52,7 @@ public class ContractsDAOTest {
 
     private Client client;
 
-    private Contract contract;
+    private Contract contract, contractWithoutClient;
 
     private Option option;
 
@@ -99,6 +100,7 @@ public class ContractsDAOTest {
         contractsDAO.create(contract4);
 
         this.contract = contract1;
+        this.contractWithoutClient = contract4;
         this.client = client1;
         this.option = option1;
     }
@@ -172,5 +174,18 @@ public class ContractsDAOTest {
         Assert.assertEquals(1, contracts.size());
         Assert.assertEquals("0000000", contracts.get(0).getPhoneNumber());
     }
+
+    @Test
+    public void setClientToContract() throws Exception {
+        contractsDAO.setClientToContract(contractWithoutClient.getPhoneNumber(), client.getId());
+
+        Contract found = contractsDAO.findById(contractWithoutClient.getId());
+
+        Assert.assertEquals(contractWithoutClient.getPhoneNumber(), found.getPhoneNumber());
+        Assert.assertEquals(client.getId(), found.getClient().getId());
+
+    }
+
+
 
 }

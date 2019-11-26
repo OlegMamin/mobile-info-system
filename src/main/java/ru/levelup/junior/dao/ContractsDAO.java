@@ -78,4 +78,13 @@ public class ContractsDAO {
         contract.setClient(null);
         manager.persist(contract);
     }
+    @Transactional
+    public void setClientToContract(String phoneNumber, int clientId){
+        Contract contract = findByPhoneNumber(phoneNumber);
+        Client client = manager.find(Client.class, clientId);
+
+        contract.setClient(client);
+        manager.persist(contract);
+    }
+
 }
