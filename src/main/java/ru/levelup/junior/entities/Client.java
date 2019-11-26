@@ -42,6 +42,9 @@ public class Client {
     @Size(min = 4)
     private String password;
 
+    @Column
+    private boolean isAdmin;
+
     public Client() {
     }
 
@@ -124,5 +127,13 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }

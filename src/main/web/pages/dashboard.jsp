@@ -5,53 +5,15 @@
 <html>
 <head>
     <title>Dashboard</title>
-    <style type="text/css">
-        table {
-            font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
-            font-size: 14px;
-            border-radius: 10px;
-            border-spacing: 0;
-            text-align: center;
-        }
-        th {
-            background: #BCEBDD;
-            color: white;
-            text-shadow: 0 1px 1px #2D2020;
-            padding: 10px 20px;
-        }
-        th, td {
-            border-style: solid;
-            border-width: 0 1px 1px 0;
-            border-color: white;
-        }
-        /*th:first-child, td:first-child {*/
-            /*text-align: left;*/
-        /*}*/
-        th:first-child {
-            border-top-left-radius: 10px;
-        }
-        th:last-child {
-            border-top-right-radius: 10px;
-            border-right: none;
-        }
-        td {
-            padding: 10px 20px;
-            background: #F8E391;
-        }
-        tr:last-child td:first-child {
-            border-radius: 0 0 0 10px;
-        }
-        tr:last-child td:last-child {
-            border-radius: 0 0 10px 0;
-        }
-        tr td:last-child {
-            border-right: none;
-        }
+    <style>
+        <%@include file="style.css" %>
     </style>
+    <%--<style  type="text/css" resource="style.css"/>--%>
 </head>
 <body>
     <h1>Welcome, ${sessionScope['clientName']}!</h1>
 
+    <c:if test="${contracts.size() != 0}">
     <table>
         <thead>
             <tr>
@@ -76,5 +38,16 @@
 
         </tbody>
     </table>
+    </c:if>
+
+    <c:if test="${sessionScope['isAdmin'] == true}">
+        <h3>you are admin</h3>
+    </c:if>
+
+    <c:if test="${contracts.size() == 0 && sessionScope['isAdmin'] == false}">
+        <p>You have not any contracts.</p>
+    </c:if>
+    <p><a href="dashboard/contracts">Add contract</a></p>
+
 </body>
 </html>

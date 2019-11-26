@@ -45,6 +45,13 @@ public class ContractsDAO {
 
     }
 
+    public List<Contract> findContractsToChose(){
+        return manager.createQuery("FROM Contract WHERE client = null ORDER BY phoneNumber", Contract.class)
+                .setMaxResults(20)
+                .getResultList();
+
+    }
+
     public Contract findById(int contractId){
         return manager.createQuery("FROM Contract WHERE id = :p", Contract.class)
                 .setParameter("p", contractId)

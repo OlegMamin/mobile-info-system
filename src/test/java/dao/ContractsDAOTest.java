@@ -33,6 +33,7 @@ import static org.junit.Assert.fail;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ContractsDAOTest {
 
+
     @Autowired
     private ClientsDAO clientsDAO;
 
@@ -76,6 +77,7 @@ public class ContractsDAOTest {
         Contract contract1 = new Contract("7557755");
         Contract contract2 = new Contract("1112233");
         Contract contract3 = new Contract("9994466");
+        Contract contract4 = new Contract("0000000");
 
         contract1.setClient(client1);
         contract2.setClient(client1);
@@ -94,6 +96,7 @@ public class ContractsDAOTest {
         contractsDAO.create(contract1);
         contractsDAO.create(contract2);
         contractsDAO.create(contract3);
+        contractsDAO.create(contract4);
 
         this.contract = contract1;
         this.client = client1;
@@ -160,6 +163,14 @@ public class ContractsDAOTest {
         Contract found = contractsDAO.findById(contract.getId());
 
         Assert.assertNull(found.getClient());
+    }
+
+    @Test
+    public void findContractsToChose() throws Exception {
+        List<Contract> contracts = contractsDAO.findContractsToChose();
+
+        Assert.assertEquals(1, contracts.size());
+        Assert.assertEquals("0000000", contracts.get(0).getPhoneNumber());
     }
 
 }

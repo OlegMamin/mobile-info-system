@@ -45,6 +45,8 @@ public class StartupListener {
     public void handleContextRefreshEvent(ContextRefreshedEvent ctxStartEvt) {
         Client firstClient;
         Client secondClient;
+        Client withoutContractClient;
+        Client admin;
         Tariff tariffLow;
         Tariff tariffHigh;
         Tariff tariffMedium;
@@ -52,12 +54,16 @@ public class StartupListener {
         Contract contract2;
         Contract contract3;
         Contract contract4;
+        Contract contract5;
+        Contract contract6;
         Option option1;
         Option option2;
 
         try {
             firstClient = clientsDAO.findByLogin("test");
             secondClient = clientsDAO.findByLogin("second");
+            withoutContractClient = clientsDAO.findByLogin("hommy");
+            admin = clientsDAO.findByLogin("admin");
             tariffLow = tariffsDAO.findByName("tariffLow");
             tariffMedium = tariffsDAO.findByName("tariffMedium");
             tariffHigh = tariffsDAO.findByName("tariffHigh");
@@ -65,6 +71,8 @@ public class StartupListener {
             contract2 = contractsDAO.findByPhoneNumber("1112233");
             contract3 = contractsDAO.findByPhoneNumber("2322212");
             contract4 = contractsDAO.findByPhoneNumber("4666666");
+            contract5 = contractsDAO.findByPhoneNumber("5555555");
+            contract6 = contractsDAO.findByPhoneNumber("7777777");
             option1 = optionsDAO.findByName("option1");
             option1 = optionsDAO.findByName("option2");
         } catch (NoResultException notFound) {
@@ -72,6 +80,13 @@ public class StartupListener {
                     , "1234564145", "test", "1234");
             secondClient = new Client("Frank", "Lampard"
                     , "1005323232", "second", "4567");
+            withoutContractClient = new Client("Homer", "Simpson"
+                    , "123456", "hommy", "1234");
+
+            admin = new Client("Admin", "Smith"
+                    , "123098", "admin", "1111");
+            admin.setAdmin(true);
+
             tariffLow = new Tariff("tariffLow", 100);
             tariffHigh = new Tariff("tariffHigh", 300);
             tariffMedium = new Tariff("tariffMedium", 200);
@@ -79,6 +94,8 @@ public class StartupListener {
             contract2 = new Contract("1112233", firstClient, tariffHigh);
             contract3 = new Contract("2322212", firstClient, tariffMedium);
             contract4 = new Contract("4666666", secondClient, tariffHigh);
+            contract5 = new Contract("5555555");
+            contract6 = new Contract("1777777");
             option1 = new Option("option1", 10, 3);
             option2 = new Option("option2", 12, 4);
 
@@ -91,6 +108,8 @@ public class StartupListener {
 
             clientsDAO.create(firstClient);
             clientsDAO.create(secondClient);
+            clientsDAO.create(withoutContractClient);
+            clientsDAO.create(admin);
             tariffsDAO.create(tariffHigh);
             tariffsDAO.create(tariffLow);
             tariffsDAO.create(tariffMedium);
@@ -98,6 +117,8 @@ public class StartupListener {
             contractsDAO.create(contract2);
             contractsDAO.create(contract3);
             contractsDAO.create(contract4);
+            contractsDAO.create(contract5);
+            contractsDAO.create(contract6);
             optionsDAO.create(option1);
             optionsDAO.create(option2);
         }

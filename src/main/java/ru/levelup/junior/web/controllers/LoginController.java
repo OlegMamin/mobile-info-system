@@ -35,6 +35,7 @@ public class LoginController {
             Client found = clientsDAO.findByLoginAndPassword(login, password);
             session.setAttribute("clientId", found.getId());
             session.setAttribute("clientName", found.getFirstName());
+            session.setAttribute("isAdmin", found.isAdmin());
 
             return "redirect:/dashboard";
         } catch (NoResultException notFound) {
