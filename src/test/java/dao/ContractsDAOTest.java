@@ -135,8 +135,9 @@ public class ContractsDAOTest {
     public void findByClient() throws Exception {
         List<Contract> found = contractsDAO.findByClient(client);
 
+
         Assert.assertEquals(2, found.size());
-        Assert.assertEquals(client.getId(), found.get(0).getId());
+        Assert.assertEquals(client.getId(), found.get(0).getClient().getId());
     }
 
     @Test
