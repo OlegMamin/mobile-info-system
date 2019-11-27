@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
+import ru.levelup.junior.entities.Tariff;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -39,7 +40,7 @@ public class ContractsDAO {
     }
 
     public List<Contract> findByClient(Client client){
-        return manager.createQuery("FROM Contract WHERE client.id = :p", Contract.class)
+        return manager.createQuery("FROM Contract WHERE client.id = :p ORDER BY phoneNumber", Contract.class)
                 .setParameter("p", client.getId())
                 .getResultList();
 
@@ -84,6 +85,14 @@ public class ContractsDAO {
         Client client = manager.find(Client.class, clientId);
 
         contract.setClient(client);
+        manager.persist(contract);
+    }
+    @Transactional
+    public void setTariffToContract(String phoneNumber, int tariffId){
+        Contract contract = findByPhoneNumber(phoneNumber);
+        Tariff tariff = manager.find(Tariff.class, tariffId);
+
+        contract.setTariff(tariff);
         manager.persist(contract);
     }
 

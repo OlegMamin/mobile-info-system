@@ -35,9 +35,9 @@ import static org.junit.Assert.fail;
 public class ContractsDAOTest {
     @Autowired
     private DashboardService dashboardService;
+
     @Autowired
     private ClientsDAO clientsDAO;
-
     @Autowired
     private ContractsDAO contractsDAO;
 
@@ -52,9 +52,11 @@ public class ContractsDAOTest {
 
     private Client client;
 
-    private Contract contract, contractWithoutClient;
+    private Contract contract, contractWithoutClientAndTariff;
 
     private Option option;
+
+    private Tariff tariff;
 
     @Before
     public void setup() {
@@ -66,8 +68,10 @@ public class ContractsDAOTest {
         clientsDAO.create(client2);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
+        Tariff tariffMedium = new Tariff("tariffMedium", 200);
         Tariff tariffHigh = new Tariff("tariffHigh", 300);
         tariffsDAO.create(tariffLow);
+        tariffsDAO.create(tariffMedium);
         tariffsDAO.create(tariffHigh);
 
         Option option1 = new Option("testOption1", 10, 3);
@@ -100,16 +104,17 @@ public class ContractsDAOTest {
         contractsDAO.create(contract4);
 
         this.contract = contract1;
-        this.contractWithoutClient = contract4;
+        this.contractWithoutClientAndTariff = contract4;
         this.client = client1;
         this.option = option1;
+        this.tariff = tariffMedium;
     }
-
 
     @Test
     public void create() throws Exception {
         Assert.assertNotNull(manager.find(Contract.class, contract.getId()));
     }
+
 
     @Test
     public void findByPhoneNumber() throws Exception {
@@ -177,15 +182,23 @@ public class ContractsDAOTest {
 
     @Test
     public void setClientToContract() throws Exception {
-        contractsDAO.setClientToContract(contractWithoutClient.getPhoneNumber(), client.getId());
+        contractsDAO.setClientToContract(contractWithoutClientAndTariff.getPhoneNumber(), client.getId());
 
-        Contract found = contractsDAO.findById(contractWithoutClient.getId());
+        Contract found = contractsDAO.findById(contractWithoutClientAndTariff.getId());
 
-        Assert.assertEquals(contractWithoutClient.getPhoneNumber(), found.getPhoneNumber());
+        Assert.assertEquals(contractWithoutClientAndTariff.getPhoneNumber(), found.getPhoneNumber());
         Assert.assertEquals(client.getId(), found.getClient().getId());
 
     }
 
+    @Test
+    public void setTariffToContract() throws Exception {
+        contractsDAO.setTariffToContract(contractWithoutClientAndTariff.getPhoneNumber(), tariff.getId());
 
+        Contract found = contractsDAO.findById(contractWithoutClientAndTariff.getId());
 
+        Assert.assertEquals(contractWithoutClientAndTariff.getPhoneNumber(), found.getPhoneNumber());
+        Assert.assertEquals(tariff.getId(), found.getTariff().getId());
+        Assert.assertEquals("tariffMedium", found.getTariff().getName());
+    }
 }

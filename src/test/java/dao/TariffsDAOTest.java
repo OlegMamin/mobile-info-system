@@ -26,7 +26,6 @@ import static org.junit.Assert.fail;
 @ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TariffsDAOTest {
-
     @Autowired
     private TariffsDAO tariffsDAO;
 
@@ -46,11 +45,11 @@ public class TariffsDAOTest {
 
         this.tariff = tariffLow;
     }
+
     @Test
     public void create() throws Exception {
         Assert.assertNotNull(manager.find(Tariff.class, tariff.getId()));
     }
-
     @Test
     public void findByName() throws Exception {
         Tariff found = tariffsDAO.findByName(tariff.getName());
@@ -72,5 +71,14 @@ public class TariffsDAOTest {
 
         Assert.assertEquals(2, found.size());
         Assert.assertEquals(tariff.getId(), found.get(0).getId());
+    }
+
+    @Test
+    public void findAllTariff() throws Exception {
+        List<Tariff> found = tariffsDAO.findAllTariffs();
+
+        Assert.assertEquals(3, found.size());
+        Assert.assertEquals(tariff.getId(), found.get(0).getId());
+        Assert.assertEquals("tariffLow", found.get(0).getName());
     }
 }

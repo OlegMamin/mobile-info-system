@@ -20,11 +20,14 @@ public class AddEntityController {
     private ContractsDAO contractsDAO;
 
     @GetMapping(path = "/addContract")
-    public String setClientToContract(HttpSession session, ModelMap model,
-                              @RequestParam String phoneNumber) {
+    public String setClientToContract(
+            HttpSession session,
+            @RequestParam String phoneNumber,
+            @RequestParam int tariffId) {
         try {
-            int clientId = (int) session.getAttribute("clientId");
+            int clientId = (int)session.getAttribute("clientId");
             contractsDAO.setClientToContract(phoneNumber, clientId);
+            contractsDAO.setTariffToContract(phoneNumber, tariffId);
 
             return "redirect: /dashboard";
         } catch (NoResultException notFound) {

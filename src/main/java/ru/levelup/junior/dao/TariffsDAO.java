@@ -43,9 +43,13 @@ public class TariffsDAO {
         if (minPrice >=  maxPrice) {
             throw new IllegalArgumentException("maxPrice is lower then minPrice");
         }
-        return manager.createQuery("FROM Tariff WHERE price >= :mi AND price <= :ma", Tariff.class)
+        return manager.createQuery("FROM Tariff WHERE price >= :mi AND price <= :ma ORDER BY price", Tariff.class)
                 .setParameter("mi", minPrice)
                 .setParameter("ma", maxPrice)
+                .getResultList();
+    }
+    public List<Tariff> findAllTariffs() {
+        return manager.createQuery("FROM Tariff ORDER BY price", Tariff.class)
                 .getResultList();
     }
 }
