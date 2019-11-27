@@ -22,6 +22,7 @@
                 <th>$ per month</th>
                 <th>Owner's name</th>
                 <th>Owner's surname</th>
+                <th>Options</th>
             </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <td>${contract.tariff.price}</td>
                 <td>${contract.client.firstName}</td>
                 <td>${contract.client.lastName}</td>
+                <td><a href="/dashboard/options?contractId=${contract.id}">Details</a></td>
             </tr>
             </c:forEach>
 
@@ -47,7 +49,7 @@
     <c:if test="${contracts.size() == 0 && sessionScope['isAdmin'] == false}">
         <p>You have not any contracts.</p>
     </c:if>
-    <p><a href="dashboard/contracts">Add contract</a></p>
+    <button onclick="window.location.href='dashboard/contracts'">Add contract</button>
 
 </body>
 </html>

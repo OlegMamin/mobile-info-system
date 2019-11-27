@@ -26,7 +26,7 @@
             <tr>
                 <td>${contractTo.phoneNumber}</td>
                 <td>
-                    <a href="/dashboard/tariffs?phoneNumber=${contractTo.phoneNumber}">Add</a>
+                    <a href="/dashboard/tariffs?phoneNumber=${contractTo.phoneNumber}">Select</a>
                 </td>
             </tr>
         </c:forEach>

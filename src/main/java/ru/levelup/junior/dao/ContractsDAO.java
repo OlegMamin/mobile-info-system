@@ -59,6 +59,7 @@ public class ContractsDAO {
                 .getSingleResult();
 
     }
+
     @Transactional
     public void removeOption(int contractId, int optionId){
         Contract contract = findById(contractId);
