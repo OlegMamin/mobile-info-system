@@ -64,4 +64,22 @@ public class Option {
     public void setMonthlyPayment(double monthlyPayment) {
         this.monthlyPayment = monthlyPayment;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Option option = (Option) o;
+
+        if (id != option.id) return false;
+        if (Double.compare(option.costOfConnection, costOfConnection) != 0) return false;
+        if (Double.compare(option.monthlyPayment, monthlyPayment) != 0) return false;
+        return name != null ? name.equals(option.name) : option.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 }

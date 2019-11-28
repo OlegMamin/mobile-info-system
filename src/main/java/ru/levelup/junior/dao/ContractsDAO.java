@@ -69,6 +69,14 @@ public class ContractsDAO {
     }
 
     @Transactional
+    public void connectOption(int contractId, int optionId){
+        Contract contract = findById(contractId);
+        Option found = manager.find(Option.class, optionId);
+        contract.getOptions().add(found);
+        manager.persist(contract);
+    }
+
+    @Transactional
     public void blockTariff(int contractId){
         Contract contract = findById(contractId);
         contract.setTariff(null);

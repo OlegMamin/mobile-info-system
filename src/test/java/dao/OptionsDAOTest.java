@@ -48,6 +48,7 @@ public class OptionsDAOTest {
     public void create() throws Exception {
         Assert.assertNotNull(manager.find(Option.class, option.getId()));
     }
+
     @Test
     public void findByName() throws Exception {
         Option found = optionsDAO.findByName(option.getName());
@@ -62,7 +63,6 @@ public class OptionsDAOTest {
 
         }
     }
-
     @Test
     public void findById() throws Exception {
         Option found = optionsDAO.findById(option.getId());
@@ -84,5 +84,12 @@ public class OptionsDAOTest {
 
         Assert.assertEquals(1, found.size());
         Assert.assertEquals(option.getId(), found.get(0).getId());
+    }
+
+    @Test
+    public void findAllOptions() throws Exception {
+        List<Option> found = optionsDAO.findAllOptions();
+
+        Assert.assertEquals(2, found.size());
     }
 }

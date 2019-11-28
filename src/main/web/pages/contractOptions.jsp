@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<jsp:useBean id="optionList" scope="request" type="java.util.List<ru.levelup.junior.entities.Option>"/>
+<jsp:useBean id="contractOptions" scope="request" type="java.util.List<ru.levelup.junior.entities.Option>"/>
+<jsp:useBean id="notConnected" scope="request" type="java.util.List<ru.levelup.junior.entities.Option>"/>
 <jsp:useBean id="contract" scope="request" type="ru.levelup.junior.entities.Contract"/>
 
 <html>
@@ -13,32 +14,67 @@
 <body>
 <h3>Contract number: ${contract.phoneNumber}.</h3>
 <h3>Tariff: ${contract.tariff.name}.</h3>
-<h3>Options: </h3>
-<c:if test="${optionList.size() == 0}">
-    <p>No options in current contract</p>
+<h3>Connected options: </h3>
+<c:if test="${contractOptions.size() == 0}">
+    <p>There is no options connected to current contract</p>
 </c:if>
-<c:if test="${optionList.size() != 0}">
+<c:if test="${contractOptions.size() != 0}">
     <table>
         <thead>
         <tr>
             <th>Name</th>
             <th>Cost of connection</th>
             <th>Monthly payment</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-
-        <c:forEach items="${optionList}" var="option">
+        <c:forEach items="${contractOptions}" var="option">
             <tr>
                 <td>${option.name}</td>
                 <td>${option.costOfConnection}</td>
                 <td>${option.monthlyPayment}</td>
+                <td>
+                    <button onclick="window.location.href='/dashboard/options/remove?contractId=${contract.id}&optionId=${option.id}'">
+                        Disable option
+                    </button>
+                </td>
             </tr>
         </c:forEach>
-
         </tbody>
     </table>
 </c:if>
+<h3>Able to connect options: </h3>
+<c:if test="${notConnected.size() == 0}">
+    <p>There is no options able to connect</p>
+</c:if>
+<c:if test="${notConnected.size() != 0}">
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Cost of connection</th>
+            <th>Monthly payment</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${notConnected}" var="ncOption">
+            <tr>
+                <td>${ncOption.name}</td>
+                <td>${ncOption.costOfConnection}</td>
+                <td>${ncOption.monthlyPayment}</td>
+                <td>
+                    <button onclick="window.location.href='/dashboard/options/add?contractId=${contract.id}&optionId=${ncOption.id}'">
+                        Connect option
+                    </button>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</c:if>
+
 <button onclick="window.location.href='../dashboard'">Show contracts</button>
 </body>
 </html>

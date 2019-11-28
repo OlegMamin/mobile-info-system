@@ -58,6 +58,7 @@ public class StartupListener {
         Contract contract6;
         Option option1;
         Option option2;
+        Option option3;
 
         try {
             firstClient = clientsDAO.findByLogin("test");
@@ -74,7 +75,8 @@ public class StartupListener {
             contract5 = contractsDAO.findByPhoneNumber("5555555");
             contract6 = contractsDAO.findByPhoneNumber("7777777");
             option1 = optionsDAO.findByName("option1");
-            option1 = optionsDAO.findByName("option2");
+            option2 = optionsDAO.findByName("option2");
+            option3 = optionsDAO.findByName("option3");
         } catch (NoResultException notFound) {
             firstClient = new Client("John", "Terry"
                     , "1234564145", "test", "1234");
@@ -98,6 +100,7 @@ public class StartupListener {
             contract6 = new Contract("1777777");
             option1 = new Option("option1", 10, 3);
             option2 = new Option("option2", 12, 4);
+            option3 = new Option("option3", 5, 2);
 
             contract1.getOptions().add(option1);
             contract1.getOptions().add(option2);
@@ -121,6 +124,7 @@ public class StartupListener {
             contractsDAO.create(contract6);
             optionsDAO.create(option1);
             optionsDAO.create(option2);
+            optionsDAO.create(option3);
         }
     }
 }

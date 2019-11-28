@@ -38,9 +38,9 @@ public class ContractsDAOTest {
 
     @Autowired
     private ClientsDAO clientsDAO;
+
     @Autowired
     private ContractsDAO contractsDAO;
-
     @Autowired
     private TariffsDAO tariffsDAO;
 
@@ -115,7 +115,6 @@ public class ContractsDAOTest {
         Assert.assertNotNull(manager.find(Contract.class, contract.getId()));
     }
 
-
     @Test
     public void findByPhoneNumber() throws Exception {
         Contract found = contractsDAO.findByPhoneNumber(contract.getPhoneNumber());
@@ -130,6 +129,7 @@ public class ContractsDAOTest {
 
         }
     }
+
 
     @Test
     public void findByClient() throws Exception {
@@ -149,9 +149,20 @@ public class ContractsDAOTest {
     }
 
     @Test
+    public void connectOption() throws Exception {
+        contractsDAO.connectOption(contractWithoutClientAndTariff.getId(), option.getId());
+        Contract found = contractsDAO.findById(contractWithoutClientAndTariff.getId());
+
+        Assert.assertEquals(1, found.getOptions().size());
+        Assert.assertEquals(option.getId(), found.getOptions().get(0).getId());
+        Assert.assertEquals("testOption1", found.getOptions().get(0).getName());
+    }
+
+    @Test
     public void removeOption() throws Exception {
         contractsDAO.removeOption(contract.getId(), option.getId());
         Contract found = contractsDAO.findById(contract.getId());
+
         Assert.assertEquals(1, found.getOptions().size());
         Assert.assertEquals("testOption2", found.getOptions().get(0).getName());
     }
@@ -159,7 +170,6 @@ public class ContractsDAOTest {
     @Test
     public void blockTariff() throws Exception {
         contractsDAO.blockTariff(contract.getId());
-
         Contract found = contractsDAO.findById(contract.getId());
 
         Assert.assertNull(found.getTariff());

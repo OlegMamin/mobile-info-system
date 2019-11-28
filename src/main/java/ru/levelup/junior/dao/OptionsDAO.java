@@ -64,4 +64,8 @@ public class OptionsDAO {
                 .setParameter("ma", maxPrice)
                 .getResultList();
     }
+    public List<Option> findAllOptions() {
+        return manager.createQuery("FROM Option", Option.class)
+                .getResultList();
+    }
 }
