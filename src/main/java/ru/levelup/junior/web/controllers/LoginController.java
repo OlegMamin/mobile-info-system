@@ -25,7 +25,6 @@ public class LoginController {
     @Autowired
     private ClientsRepository clientsRepository;
 
-
     @PostMapping(path = "/login")
     public String processLogin(
             HttpSession session,

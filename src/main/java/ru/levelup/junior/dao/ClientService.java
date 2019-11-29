@@ -1,6 +1,8 @@
 package ru.levelup.junior.dao;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 
@@ -13,13 +15,10 @@ import javax.persistence.PersistenceContext;
 @Service
 public class ClientService {
 
-    @PersistenceContext
-    private EntityManager manager;
+    @Autowired
+    private ContractsRepository contractsRepository;
 
     public Client findByPhoneNumber(String phoneNumber) {
-        Contract contract =  manager.createQuery("FROM Contract WHERE phoneNumber = :p", Contract.class)
-                .setParameter("p", phoneNumber)
-                .getSingleResult();
-        return contract.getClient();
+        return contractsRepository.findByPhoneNumber(phoneNumber).getClient();
     }
 }

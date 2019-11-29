@@ -8,16 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.OptionsDAO;
+import ru.levelup.junior.dao.OptionsRepository;
 import ru.levelup.junior.entities.Option;
 import configuration.TestConfig;
-
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-
-import static org.junit.Assert.fail;
 
 /**
  * Created by otherz on 06.11.2019.
@@ -27,7 +23,7 @@ import static org.junit.Assert.fail;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class OptionsDAOTest {
     @Autowired
-    private OptionsDAO optionsDAO;
+    private OptionsRepository optionsRepository;
 
     @PersistenceContext
     private EntityManager manager;
@@ -37,9 +33,9 @@ public class OptionsDAOTest {
     @Before
     public void setup() {
         Option option1 = new Option("testDao1", 10, 3);
-        optionsDAO.create(option1);
+        optionsRepository.save(option1);
         Option option2 = new Option("testDao2", 12, 4);
-        optionsDAO.create(option2);
+        optionsRepository.save(option2);
 
         this.option = option1;
     }
@@ -51,27 +47,20 @@ public class OptionsDAOTest {
 
     @Test
     public void findByName() throws Exception {
-        Option found = optionsDAO.findByName(option.getName());
+        Option found = optionsRepository.findByName(option.getName());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(option.getId(), found.getId());
-
-        try {
-            optionsDAO.findByName("fakeName");
-            fail("Option fakeName shouldn't be found");
-        } catch (NoResultException expected) {
-
-        }
     }
     @Test
     public void findById() throws Exception {
-        Option found = optionsDAO.findById(option.getId());
+        Option found = optionsRepository.findById(option.getId()).get();
         Assert.assertNotNull(found);
     }
 
     @Test
     public void findByMonthlyPaymentInterval() throws Exception {
-        List<Option> found = optionsDAO.findByMonthlyPaymentInterval(1, 10);
+        List<Option> found = optionsRepository.findByMonthlyPaymentBetween(1, 10);
 
         Assert.assertEquals(2, found.size());
         Assert.assertEquals(option.getId(), found.get(0).getId());
@@ -80,7 +69,7 @@ public class OptionsDAOTest {
 
     @Test
     public void findByCostOfConnectionInterval() throws Exception {
-        List<Option> found = optionsDAO.findByCostOfConnectionInterval(2, 11);
+        List<Option> found = optionsRepository.findByCostOfConnectionBetween(2, 11);
 
         Assert.assertEquals(1, found.size());
         Assert.assertEquals(option.getId(), found.get(0).getId());
@@ -88,7 +77,7 @@ public class OptionsDAOTest {
 
     @Test
     public void findAllOptions() throws Exception {
-        List<Option> found = optionsDAO.findAllOptions();
+        List<Option> found = (List<Option>) optionsRepository.findAll();
 
         Assert.assertEquals(2, found.size());
     }

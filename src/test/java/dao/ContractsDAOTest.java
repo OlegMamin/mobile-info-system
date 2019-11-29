@@ -40,10 +40,10 @@ public class ContractsDAOTest {
     private ContractsRepository contractsRepository;
 
     @Autowired
-    private TariffsRepository tariffsRepository;
+    private OptionsRepository optionsRepository;
 
     @Autowired
-    private OptionsDAO optionsDAO;
+    private TariffsRepository tariffsRepository;
 
     @PersistenceContext
     private EntityManager manager;
@@ -74,8 +74,8 @@ public class ContractsDAOTest {
 
         Option option1 = new Option("testOption1", 10, 3);
         Option option2 = new Option("testOption2", 12, 4);
-        optionsDAO.create(option1);
-        optionsDAO.create(option2);
+        optionsRepository.save(option1);
+        optionsRepository.save(option2);
 
         Contract contract1 = new Contract("7557755");
         Contract contract2 = new Contract("1112233");

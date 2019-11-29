@@ -38,7 +38,7 @@ public class DashboardServiceTest {
     private TariffsRepository tariffsRepository;
 
     @Autowired
-    private OptionsDAO optionsDAO;
+    private OptionsRepository optionsRepository;
 
     private int clientId;
 
@@ -64,9 +64,9 @@ public class DashboardServiceTest {
         Contract contract4 = new Contract("4666666", client2, tariffHigh);
 
         Option option1 = new Option("testDao1", 10, 3);
-        optionsDAO.create(option1);
+        optionsRepository.save(option1);
         Option option2 = new Option("testDao2", 12, 4);
-        optionsDAO.create(option2);
+        optionsRepository.save(option2);
 
         contract1.getOptions().add(option1);
         contract1.getOptions().add(option2);

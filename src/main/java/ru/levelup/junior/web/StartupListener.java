@@ -28,14 +28,13 @@ public class StartupListener {
     @Autowired
     private ContractsRepository contractsRepository;
 
+
     @Autowired
     private TariffsRepository tariffsRepository;
 
-    @Autowired
-    private OptionsDAO optionsDAO;
 
-    @PersistenceContext
-    private EntityManager manager;
+    @Autowired
+    private OptionsRepository optionsRepository;
 
     @Transactional
     @EventListener
@@ -57,24 +56,6 @@ public class StartupListener {
         Option option2;
         Option option3;
 
-        try {
-            firstClient = clientsRepository.findByLogin("test");
-            secondClient = clientsRepository.findByLogin("second");
-            withoutContractClient = clientsRepository.findByLogin("hommy");
-            admin = clientsRepository.findByLogin("admin");
-            tariffLow = tariffsRepository.findByName("tariffLow");
-            tariffMedium = tariffsRepository.findByName("tariffMedium");
-            tariffHigh = tariffsRepository.findByName("tariffHigh");
-            contract1 = contractsRepository.findByPhoneNumber("7557755");
-            contract2 = contractsRepository.findByPhoneNumber("1112233");
-            contract3 = contractsRepository.findByPhoneNumber("2322212");
-            contract4 = contractsRepository.findByPhoneNumber("4666666");
-            contract5 = contractsRepository.findByPhoneNumber("5555555");
-            contract6 = contractsRepository.findByPhoneNumber("7777777");
-            option1 = optionsDAO.findByName("option1");
-            option2 = optionsDAO.findByName("option2");
-            option3 = optionsDAO.findByName("option3");
-        } catch (NoResultException notFound) {
             firstClient = new Client("John", "Terry"
                     , "1234564145", "test", "1234");
             secondClient = new Client("Frank", "Lampard"
@@ -119,9 +100,8 @@ public class StartupListener {
             contractsRepository.save(contract4);
             contractsRepository.save(contract5);
             contractsRepository.save(contract6);
-            optionsDAO.create(option1);
-            optionsDAO.create(option2);
-            optionsDAO.create(option3);
-        }
+            optionsRepository.save(option1);
+            optionsRepository.save(option2);
+            optionsRepository.save(option3);
     }
 }

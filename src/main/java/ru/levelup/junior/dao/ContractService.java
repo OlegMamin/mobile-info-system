@@ -17,19 +17,22 @@ import javax.persistence.PersistenceContext;
 @Service
 public class ContractService {
 
-    @PersistenceContext
-    private EntityManager manager;
-
     @Autowired
     private ContractsRepository contractsRepository;
 
     @Autowired
     private ClientsRepository clientsRepository;
 
+    @Autowired
+    private OptionsRepository optionsRepository;
+
+    @Autowired
+    private TariffsRepository tariffsRepository;
+
     @Transactional
     public void removeOption(int contractId, int optionId){
         Contract contract = contractsRepository.findById(contractId).get();
-        Option found = manager.find(Option.class, optionId);
+        Option found = optionsRepository.findById(optionId).get();
         contract.getOptions().remove(found);
         contractsRepository.save(contract);
     }
@@ -37,7 +40,7 @@ public class ContractService {
     @Transactional
     public void connectOption(int contractId, int optionId){
         Contract contract = contractsRepository.findById(contractId).get();
-        Option found = manager.find(Option.class, optionId);
+        Option found = optionsRepository.findById(optionId).get();
         contract.getOptions().add(found);
         contractsRepository.save(contract);
     }
@@ -68,7 +71,7 @@ public class ContractService {
     @Transactional
     public void setTariffToContract(String phoneNumber, int tariffId){
         Contract contract = contractsRepository.findByPhoneNumber(phoneNumber);
-        Tariff tariff = manager.find(Tariff.class, tariffId);
+        Tariff tariff = tariffsRepository.findById(tariffId).get();
 
         contract.setTariff(tariff);
         contractsRepository.save(contract);

@@ -27,7 +27,7 @@ public class OptionsToChoseController {
     private ContractService contractService;
 
     @Autowired
-    private OptionsDAO optionsDAO;
+    private OptionsRepository optionsRepository;
 
     @GetMapping(path = "/dashboard/options")
     public String contractsToChose(
@@ -36,7 +36,7 @@ public class OptionsToChoseController {
         try {
             Contract contract = contractsRepository.findById(contractId).get();
             List<Option> contractOptions = contract.getOptions();
-            List<Option> notConnected = optionsDAO.findAllOptions();
+            List<Option> notConnected = (List<Option>) optionsRepository.findAll();
             notConnected.removeAll(contractOptions);
 
             model.addAttribute("contractOptions", contractOptions);
