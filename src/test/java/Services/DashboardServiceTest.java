@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.ClientsDAO;
-import ru.levelup.junior.dao.ContractsDAO;
-import ru.levelup.junior.dao.OptionsDAO;
-import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
@@ -32,7 +29,7 @@ public class DashboardServiceTest {
     private DashboardService dashboardService;
 
     @Autowired
-    private ClientsDAO clientsDAO;
+    private ClientsRepository clientsRepository;
 
     @Autowired
     private ContractsDAO contractsDAO;
@@ -49,10 +46,10 @@ public class DashboardServiceTest {
     public void setup() {
         Client client1 = new Client("John", "Terry"
                 , "1234564145", "test", "12345");
-        clientsDAO.create(client1);
+        clientsRepository.save(client1);
         Client client2 = new Client("Frank", "Lampard"
                 , "1005323232", "frog", "4567");
-        clientsDAO.create(client2);
+        clientsRepository.save(client2);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
         tariffsDAO.create(tariffLow);
