@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.levelup.junior.dao.ClientsDAO;
 import ru.levelup.junior.dao.ClientsRepository;
 import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.ContractsRepository;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 
@@ -20,9 +21,9 @@ public class DashboardService {
     private ClientsRepository clientsRepository;
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractsRepository contractsRepository;
 
     public List<Contract> getContracts(int clientId) {
-        return clientsRepository.findById(clientId).map(client -> contractsDAO.findByClient(client)).get();
+        return clientsRepository.findById(clientId).map(client -> contractsRepository.findByClient(client)).get();
     }
 }

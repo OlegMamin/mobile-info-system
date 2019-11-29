@@ -35,7 +35,7 @@ public class ClientsDAOTest {
     private ClientService clientService;
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractsRepository contractsRepository;
 
     @Autowired
     private TariffsDAO tariffsDAO;
@@ -57,7 +57,7 @@ public class ClientsDAOTest {
         tariffsDAO.create(tariffLow);
 
         Contract contract1 = new Contract("7557755", client1, tariffLow);
-        contractsDAO.create(contract1);
+        contractsRepository.save(contract1);
 
         this.client = client1;
         this.contract = contract1;

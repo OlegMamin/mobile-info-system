@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.ClientsDAO;
-import ru.levelup.junior.dao.ContractsDAO;
-import ru.levelup.junior.dao.OptionsDAO;
-import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
@@ -34,13 +31,14 @@ import static org.junit.Assert.fail;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ContractsDAOTest {
     @Autowired
-    private DashboardService dashboardService;
+    private ContractService contractService;
 
     @Autowired
-    private ClientsDAO clientsDAO;
+    private ClientsRepository clientsRepository;
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractsRepository contractsRepository;
+
     @Autowired
     private TariffsDAO tariffsDAO;
 
@@ -64,8 +62,8 @@ public class ContractsDAOTest {
                 , "1234564145", "test", "12345");
         Client client2 = new Client("Frank", "Lampard"
                 , "1005323232", "frog", "4567");
-        clientsDAO.create(client1);
-        clientsDAO.create(client2);
+        clientsRepository.save(client1);
+        clientsRepository.save(client2);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
         Tariff tariffMedium = new Tariff("tariffMedium", 200);
@@ -98,10 +96,10 @@ public class ContractsDAOTest {
         contract2.getOptions().add(option1);
         contract3.getOptions().add(option1);
 
-        contractsDAO.create(contract1);
-        contractsDAO.create(contract2);
-        contractsDAO.create(contract3);
-        contractsDAO.create(contract4);
+        contractsRepository.save(contract1);
+        contractsRepository.save(contract2);
+        contractsRepository.save(contract3);
+        contractsRepository.save(contract4);
 
         this.contract = contract1;
         this.contractWithoutClientAndTariff = contract4;
@@ -117,23 +115,17 @@ public class ContractsDAOTest {
 
     @Test
     public void findByPhoneNumber() throws Exception {
-        Contract found = contractsDAO.findByPhoneNumber(contract.getPhoneNumber());
+        Contract found = contractsRepository.findByPhoneNumber(contract.getPhoneNumber());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(contract.getId(), found.getId());
 
-        try {
-            contractsDAO.findByPhoneNumber("1234567");
-            fail("Option fakeName shouldn't be found");
-        } catch (NoResultException expected) {
-
-        }
     }
 
 
     @Test
     public void findByClient() throws Exception {
-        List<Contract> found = contractsDAO.findByClient(client);
+        List<Contract> found = contractsRepository.findByClient(client);
 
 
         Assert.assertEquals(2, found.size());
@@ -142,7 +134,7 @@ public class ContractsDAOTest {
 
     @Test
     public void findById() throws Exception {
-        Contract found = contractsDAO.findById(contract.getId());
+        Contract found = contractsRepository.findById(contract.getId()).get();
 
         Assert.assertNotNull(found);
         Assert.assertEquals(contract.getPhoneNumber(), found.getPhoneNumber());
@@ -150,8 +142,8 @@ public class ContractsDAOTest {
 
     @Test
     public void connectOption() throws Exception {
-        contractsDAO.connectOption(contractWithoutClientAndTariff.getId(), option.getId());
-        Contract found = contractsDAO.findById(contractWithoutClientAndTariff.getId());
+        contractService.connectOption(contractWithoutClientAndTariff.getId(), option.getId());
+        Contract found = contractsRepository.findById(contractWithoutClientAndTariff.getId()).get();
 
         Assert.assertEquals(1, found.getOptions().size());
         Assert.assertEquals(option.getId(), found.getOptions().get(0).getId());
@@ -160,8 +152,8 @@ public class ContractsDAOTest {
 
     @Test
     public void removeOption() throws Exception {
-        contractsDAO.removeOption(contract.getId(), option.getId());
-        Contract found = contractsDAO.findById(contract.getId());
+        contractService.removeOption(contract.getId(), option.getId());
+        Contract found = contractsRepository.findById(contract.getId()).get();
 
         Assert.assertEquals(1, found.getOptions().size());
         Assert.assertEquals("testOption2", found.getOptions().get(0).getName());
@@ -169,23 +161,23 @@ public class ContractsDAOTest {
 
     @Test
     public void blockTariff() throws Exception {
-        contractsDAO.blockTariff(contract.getId());
-        Contract found = contractsDAO.findById(contract.getId());
+        contractService.blockTariff(contract.getId());
+        Contract found = contractsRepository.findById(contract.getId()).get();
 
         Assert.assertNull(found.getTariff());
     }
 
     @Test
     public void terminateContract() throws Exception {
-        contractsDAO.terminateContract(contract.getId());
-        Contract found = contractsDAO.findById(contract.getId());
+        contractService.terminateContract(contract.getId());
+        Contract found = contractsRepository.findById(contract.getId()).get();
 
         Assert.assertNull(found.getClient());
     }
 
     @Test
     public void findContractsToChose() throws Exception {
-        List<Contract> contracts = contractsDAO.findContractsToChose();
+        List<Contract> contracts = contractsRepository.findContractsToChose();
 
         Assert.assertEquals(1, contracts.size());
         Assert.assertEquals("0000000", contracts.get(0).getPhoneNumber());
@@ -193,9 +185,9 @@ public class ContractsDAOTest {
 
     @Test
     public void setClientToContract() throws Exception {
-        contractsDAO.setClientToContract(contractWithoutClientAndTariff.getPhoneNumber(), client.getId());
+        contractService.setClientToContract(contractWithoutClientAndTariff.getPhoneNumber(), client.getId());
 
-        Contract found = contractsDAO.findById(contractWithoutClientAndTariff.getId());
+        Contract found = contractsRepository.findById(contractWithoutClientAndTariff.getId()).get();
 
         Assert.assertEquals(contractWithoutClientAndTariff.getPhoneNumber(), found.getPhoneNumber());
         Assert.assertEquals(client.getId(), found.getClient().getId());
@@ -204,9 +196,9 @@ public class ContractsDAOTest {
 
     @Test
     public void setTariffToContract() throws Exception {
-        contractsDAO.setTariffToContract(contractWithoutClientAndTariff.getPhoneNumber(), tariff.getId());
+        contractService.setTariffToContract(contractWithoutClientAndTariff.getPhoneNumber(), tariff.getId());
 
-        Contract found = contractsDAO.findById(contractWithoutClientAndTariff.getId());
+        Contract found = contractsRepository.findById(contractWithoutClientAndTariff.getId()).get();
 
         Assert.assertEquals(contractWithoutClientAndTariff.getPhoneNumber(), found.getPhoneNumber());
         Assert.assertEquals(tariff.getId(), found.getTariff().getId());

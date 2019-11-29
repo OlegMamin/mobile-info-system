@@ -5,10 +5,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import ru.levelup.junior.dao.ClientsDAO;
-import ru.levelup.junior.dao.ContractsDAO;
-import ru.levelup.junior.dao.OptionsDAO;
-import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
@@ -26,10 +23,10 @@ import javax.persistence.PersistenceContext;
 public class StartupListener {
 
     @Autowired
-    private ClientsDAO clientsDAO;
+    private ClientsRepository clientsRepository;
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractsRepository contractsRepository;
 
     @Autowired
     private TariffsDAO tariffsDAO;
@@ -61,19 +58,19 @@ public class StartupListener {
         Option option3;
 
         try {
-            firstClient = clientsDAO.findByLogin("test");
-            secondClient = clientsDAO.findByLogin("second");
-            withoutContractClient = clientsDAO.findByLogin("hommy");
-            admin = clientsDAO.findByLogin("admin");
+            firstClient = clientsRepository.findByLogin("test");
+            secondClient = clientsRepository.findByLogin("second");
+            withoutContractClient = clientsRepository.findByLogin("hommy");
+            admin = clientsRepository.findByLogin("admin");
             tariffLow = tariffsDAO.findByName("tariffLow");
             tariffMedium = tariffsDAO.findByName("tariffMedium");
             tariffHigh = tariffsDAO.findByName("tariffHigh");
-            contract1 = contractsDAO.findByPhoneNumber("7557755");
-            contract2 = contractsDAO.findByPhoneNumber("1112233");
-            contract3 = contractsDAO.findByPhoneNumber("2322212");
-            contract4 = contractsDAO.findByPhoneNumber("4666666");
-            contract5 = contractsDAO.findByPhoneNumber("5555555");
-            contract6 = contractsDAO.findByPhoneNumber("7777777");
+            contract1 = contractsRepository.findByPhoneNumber("7557755");
+            contract2 = contractsRepository.findByPhoneNumber("1112233");
+            contract3 = contractsRepository.findByPhoneNumber("2322212");
+            contract4 = contractsRepository.findByPhoneNumber("4666666");
+            contract5 = contractsRepository.findByPhoneNumber("5555555");
+            contract6 = contractsRepository.findByPhoneNumber("7777777");
             option1 = optionsDAO.findByName("option1");
             option2 = optionsDAO.findByName("option2");
             option3 = optionsDAO.findByName("option3");
@@ -109,19 +106,19 @@ public class StartupListener {
             contract3.getOptions().add(option2);
             contract4.getOptions().add(option2);
 
-            clientsDAO.create(firstClient);
-            clientsDAO.create(secondClient);
-            clientsDAO.create(withoutContractClient);
-            clientsDAO.create(admin);
+            clientsRepository.save(firstClient);
+            clientsRepository.save(secondClient);
+            clientsRepository.save(withoutContractClient);
+            clientsRepository.save(admin);
             tariffsDAO.create(tariffHigh);
             tariffsDAO.create(tariffLow);
             tariffsDAO.create(tariffMedium);
-            contractsDAO.create(contract1);
-            contractsDAO.create(contract2);
-            contractsDAO.create(contract3);
-            contractsDAO.create(contract4);
-            contractsDAO.create(contract5);
-            contractsDAO.create(contract6);
+            contractsRepository.save(contract1);
+            contractsRepository.save(contract2);
+            contractsRepository.save(contract3);
+            contractsRepository.save(contract4);
+            contractsRepository.save(contract5);
+            contractsRepository.save(contract6);
             optionsDAO.create(option1);
             optionsDAO.create(option2);
             optionsDAO.create(option3);

@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.ContractsDAO;
-import ru.levelup.junior.dao.OptionsDAO;
-import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
@@ -23,7 +21,10 @@ import java.util.List;
 public class OptionsToChoseController {
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractsRepository contractsRepository;
+
+    @Autowired
+    private ContractService contractService;
 
     @Autowired
     private OptionsDAO optionsDAO;
@@ -33,7 +34,7 @@ public class OptionsToChoseController {
             ModelMap model,
             @RequestParam int contractId) {
         try {
-            Contract contract = contractsDAO.findById(contractId);
+            Contract contract = contractsRepository.findById(contractId).get();
             List<Option> contractOptions = contract.getOptions();
             List<Option> notConnected = optionsDAO.findAllOptions();
             notConnected.removeAll(contractOptions);
@@ -54,7 +55,7 @@ public class OptionsToChoseController {
             @RequestParam int contractId,
             @RequestParam int optionId) {
         try {
-            contractsDAO.removeOption(contractId, optionId);
+            contractService.removeOption(contractId, optionId);
 
             return "redirect:/dashboard/options?contractId=" + contractId;
         } catch (NoResultException notFound) {
@@ -66,7 +67,7 @@ public class OptionsToChoseController {
             @RequestParam int contractId,
             @RequestParam int optionId) {
         try {
-            contractsDAO.connectOption(contractId, optionId);
+            contractService.connectOption(contractId, optionId);
 
             return "redirect:/dashboard/options?contractId=" + contractId;
         } catch (NoResultException notFound) {

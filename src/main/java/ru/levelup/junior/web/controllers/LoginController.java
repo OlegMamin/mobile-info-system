@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.levelup.junior.dao.ClientsDAO;
+import ru.levelup.junior.dao.ClientsRepository;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.web.RegistrationFormBean;
 
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpSession;
 @Controller
 public class LoginController {
     @Autowired
-    private ClientsDAO clientsDAO;
+    private ClientsRepository clientsRepository;
 
     @PostMapping(path = "/login")
     public String processLogin(
@@ -32,7 +33,7 @@ public class LoginController {
             @RequestParam String password,
             ModelMap model) {
         try {
-            Client found = clientsDAO.findByLoginAndPassword(login, password);
+            Client found = clientsRepository.findByLoginAndPassword(login, password);
             session.setAttribute("clientId", found.getId());
             session.setAttribute("clientName", found.getFirstName());
             session.setAttribute("isAdmin", found.isAdmin());
@@ -65,7 +66,7 @@ public class LoginController {
         }
 
         try {
-            clientsDAO.create(new Client(
+            clientsRepository.save(new Client(
                     form.getFirstName(), form.getSecondName(), form.getPassportNumber(), form.getLogin(), form.getPassword()));
         } catch (Exception e) {
             result.addError(new FieldError("form", "login",

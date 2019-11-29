@@ -5,7 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.levelup.junior.dao.ContractService;
 import ru.levelup.junior.dao.ContractsDAO;
+import ru.levelup.junior.dao.ContractsRepository;
 
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
@@ -17,7 +19,7 @@ import javax.servlet.http.HttpSession;
 public class AddEntityController {
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractService contractService;
 
     @GetMapping(path = "/addContract")
     public String setClientToContract(
@@ -26,8 +28,8 @@ public class AddEntityController {
             @RequestParam int tariffId) {
         try {
             int clientId = (int)session.getAttribute("clientId");
-            contractsDAO.setClientToContract(phoneNumber, clientId);
-            contractsDAO.setTariffToContract(phoneNumber, tariffId);
+            contractService.setClientToContract(phoneNumber, clientId);
+            contractService.setTariffToContract(phoneNumber, tariffId);
 
             return "redirect: /dashboard";
         } catch (NoResultException notFound) {
