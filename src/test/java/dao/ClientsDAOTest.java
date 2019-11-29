@@ -38,7 +38,7 @@ public class ClientsDAOTest {
     private ContractsRepository contractsRepository;
 
     @Autowired
-    private TariffsDAO tariffsDAO;
+    private TariffsRepository tariffsRepository;
 
     @PersistenceContext
     private EntityManager manager;
@@ -54,7 +54,7 @@ public class ClientsDAOTest {
         clientsRepository.save(client1);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
-        tariffsDAO.create(tariffLow);
+        tariffsRepository.save(tariffLow);
 
         Contract contract1 = new Contract("7557755", client1, tariffLow);
         contractsRepository.save(contract1);
@@ -85,6 +85,7 @@ public class ClientsDAOTest {
 
         Assert.assertNotNull(found);
         Assert.assertEquals(client.getId(), found.getId());
+        Assert.assertEquals("John", found.getFirstName());
 
     }
 

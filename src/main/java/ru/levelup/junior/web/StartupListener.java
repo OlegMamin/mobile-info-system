@@ -29,7 +29,7 @@ public class StartupListener {
     private ContractsRepository contractsRepository;
 
     @Autowired
-    private TariffsDAO tariffsDAO;
+    private TariffsRepository tariffsRepository;
 
     @Autowired
     private OptionsDAO optionsDAO;
@@ -62,9 +62,9 @@ public class StartupListener {
             secondClient = clientsRepository.findByLogin("second");
             withoutContractClient = clientsRepository.findByLogin("hommy");
             admin = clientsRepository.findByLogin("admin");
-            tariffLow = tariffsDAO.findByName("tariffLow");
-            tariffMedium = tariffsDAO.findByName("tariffMedium");
-            tariffHigh = tariffsDAO.findByName("tariffHigh");
+            tariffLow = tariffsRepository.findByName("tariffLow");
+            tariffMedium = tariffsRepository.findByName("tariffMedium");
+            tariffHigh = tariffsRepository.findByName("tariffHigh");
             contract1 = contractsRepository.findByPhoneNumber("7557755");
             contract2 = contractsRepository.findByPhoneNumber("1112233");
             contract3 = contractsRepository.findByPhoneNumber("2322212");
@@ -110,9 +110,9 @@ public class StartupListener {
             clientsRepository.save(secondClient);
             clientsRepository.save(withoutContractClient);
             clientsRepository.save(admin);
-            tariffsDAO.create(tariffHigh);
-            tariffsDAO.create(tariffLow);
-            tariffsDAO.create(tariffMedium);
+            tariffsRepository.save(tariffHigh);
+            tariffsRepository.save(tariffLow);
+            tariffsRepository.save(tariffMedium);
             contractsRepository.save(contract1);
             contractsRepository.save(contract2);
             contractsRepository.save(contract3);

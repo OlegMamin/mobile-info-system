@@ -8,16 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.dao.TariffsRepository;
 import ru.levelup.junior.entities.Tariff;
 import configuration.TestConfig;
-
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-
-import static org.junit.Assert.fail;
 
 /**
  * Created by otherz on 06.11.2019.
@@ -27,7 +23,7 @@ import static org.junit.Assert.fail;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class TariffsDAOTest {
     @Autowired
-    private TariffsDAO tariffsDAO;
+    private TariffsRepository tariffsRepository;
 
     @PersistenceContext
     private EntityManager manager;
@@ -37,11 +33,11 @@ public class TariffsDAOTest {
     @Before
     public void setup() {
         Tariff tariffLow = new Tariff("tariffLow", 100);
-        tariffsDAO.create(tariffLow);
+        tariffsRepository.save(tariffLow);
         Tariff tariffHigh = new Tariff("tariffHigh", 300);
-        tariffsDAO.create(tariffHigh);
+        tariffsRepository.save(tariffHigh);
         Tariff tariffMedium = new Tariff("tariffMedium", 200);
-        tariffsDAO.create(tariffMedium);
+        tariffsRepository.save(tariffMedium);
 
         this.tariff = tariffLow;
     }
@@ -52,22 +48,16 @@ public class TariffsDAOTest {
     }
     @Test
     public void findByName() throws Exception {
-        Tariff found = tariffsDAO.findByName(tariff.getName());
+        Tariff found = tariffsRepository.findByName(tariff.getName());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(tariff.getId(), found.getId());
 
-        try {
-            tariffsDAO.findByName("fakeName");
-            fail("Option fakeName shouldn't be found");
-        } catch (NoResultException expected) {
-
-        }
     }
 
     @Test
     public void findByPriceInterval() throws Exception {
-        List<Tariff> found = tariffsDAO.findByPriceInterval(90, 210);
+        List<Tariff> found = tariffsRepository.findByPriceBetween(90, 210);
 
         Assert.assertEquals(2, found.size());
         Assert.assertEquals(tariff.getId(), found.get(0).getId());
@@ -75,7 +65,7 @@ public class TariffsDAOTest {
 
     @Test
     public void findAllTariff() throws Exception {
-        List<Tariff> found = tariffsDAO.findAllTariffs();
+        List<Tariff> found = (List<Tariff>) tariffsRepository.findAll();
 
         Assert.assertEquals(3, found.size());
         Assert.assertEquals(tariff.getId(), found.get(0).getId());

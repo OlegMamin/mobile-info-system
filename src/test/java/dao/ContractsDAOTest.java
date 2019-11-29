@@ -40,7 +40,7 @@ public class ContractsDAOTest {
     private ContractsRepository contractsRepository;
 
     @Autowired
-    private TariffsDAO tariffsDAO;
+    private TariffsRepository tariffsRepository;
 
     @Autowired
     private OptionsDAO optionsDAO;
@@ -68,9 +68,9 @@ public class ContractsDAOTest {
         Tariff tariffLow = new Tariff("tariffLow", 100);
         Tariff tariffMedium = new Tariff("tariffMedium", 200);
         Tariff tariffHigh = new Tariff("tariffHigh", 300);
-        tariffsDAO.create(tariffLow);
-        tariffsDAO.create(tariffMedium);
-        tariffsDAO.create(tariffHigh);
+        tariffsRepository.save(tariffLow);
+        tariffsRepository.save(tariffMedium);
+        tariffsRepository.save(tariffHigh);
 
         Option option1 = new Option("testOption1", 10, 3);
         Option option2 = new Option("testOption2", 12, 4);

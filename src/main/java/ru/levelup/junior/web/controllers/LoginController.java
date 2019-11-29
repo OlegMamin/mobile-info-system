@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.ClientsDAO;
 import ru.levelup.junior.dao.ClientsRepository;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.web.RegistrationFormBean;
@@ -25,6 +24,7 @@ import javax.servlet.http.HttpSession;
 public class LoginController {
     @Autowired
     private ClientsRepository clientsRepository;
+
 
     @PostMapping(path = "/login")
     public String processLogin(
@@ -66,6 +66,7 @@ public class LoginController {
         }
 
         try {
+            //save() do not throw exception!!
             clientsRepository.save(new Client(
                     form.getFirstName(), form.getSecondName(), form.getPassportNumber(), form.getLogin(), form.getPassword()));
         } catch (Exception e) {

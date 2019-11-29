@@ -32,10 +32,10 @@ public class DashboardServiceTest {
     private ClientsRepository clientsRepository;
 
     @Autowired
-    private ContractsDAO contractsDAO;
+    private ContractsRepository contractsRepository;
 
     @Autowired
-    private TariffsDAO tariffsDAO;
+    private TariffsRepository tariffsRepository;
 
     @Autowired
     private OptionsDAO optionsDAO;
@@ -52,11 +52,11 @@ public class DashboardServiceTest {
         clientsRepository.save(client2);
 
         Tariff tariffLow = new Tariff("tariffLow", 100);
-        tariffsDAO.create(tariffLow);
+        tariffsRepository.save(tariffLow);
         Tariff tariffHigh = new Tariff("tariffHigh", 300);
-        tariffsDAO.create(tariffHigh);
+        tariffsRepository.save(tariffHigh);
         Tariff tariffMedium = new Tariff("tariffMedium", 200);
-        tariffsDAO.create(tariffMedium);
+        tariffsRepository.save(tariffMedium);
 
         Contract contract1 = new Contract("7557755", client1, tariffLow);
         Contract contract2 = new Contract("1112233", client1, tariffHigh);
@@ -75,10 +75,10 @@ public class DashboardServiceTest {
         contract3.getOptions().add(option2);
         contract4.getOptions().add(option2);
 
-        contractsDAO.create(contract1);
-        contractsDAO.create(contract2);
-        contractsDAO.create(contract3);
-        contractsDAO.create(contract4);
+        contractsRepository.save(contract1);
+        contractsRepository.save(contract2);
+        contractsRepository.save(contract3);
+        contractsRepository.save(contract4);
         clientId = client1.getId();
     }
 

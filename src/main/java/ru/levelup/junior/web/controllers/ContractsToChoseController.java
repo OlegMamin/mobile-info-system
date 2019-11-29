@@ -4,11 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.levelup.junior.dao.ContractService;
-import ru.levelup.junior.dao.ContractsDAO;
 import ru.levelup.junior.dao.ContractsRepository;
 import ru.levelup.junior.entities.Contract;
-
 import javax.persistence.NoResultException;
 import java.util.List;
 

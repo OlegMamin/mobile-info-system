@@ -5,9 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.TariffsDAO;
+import ru.levelup.junior.dao.TariffsRepository;
 import ru.levelup.junior.entities.Tariff;
-
 import javax.persistence.NoResultException;
 import java.util.List;
 
@@ -17,14 +16,14 @@ import java.util.List;
 @Controller
 public class TariffsToChoseController {
     @Autowired
-    private TariffsDAO tariffsDAO;
+    private TariffsRepository tariffsRepository;
 
     @GetMapping(path = "/dashboard/tariffs")
     public String contractsToChose(
             ModelMap model,
             @RequestParam String phoneNumber) {
         try {
-            List<Tariff> tariffsToChose = tariffsDAO.findAllTariffs();
+            List<Tariff> tariffsToChose = (List<Tariff>) tariffsRepository.findAll();
             model.addAttribute("tariffsToChose", tariffsToChose);
             model.addAttribute("phoneNumber", phoneNumber);
             return "tariffsToChose";
