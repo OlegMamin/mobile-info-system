@@ -1,7 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <jsp:useBean id="contractOptions" scope="request" type="java.util.List<ru.levelup.junior.entities.Option>"/>
-<jsp:useBean id="notConnected" scope="request" type="java.util.List<ru.levelup.junior.entities.Option>"/>
+<jsp:useBean id="notConnectedOptions" scope="request" type="java.util.List<ru.levelup.junior.entities.Option>"/>
 <jsp:useBean id="contract" scope="request" type="ru.levelup.junior.entities.Contract"/>
 
 <html>
@@ -36,7 +36,7 @@
                 <td>${option.monthlyPayment}</td>
                 <td>
                     <button onclick="window.location.href='/dashboard/options/remove?contractId=${contract.id}&optionId=${option.id}'">
-                        Disable option
+                        Disconnect option
                     </button>
                 </td>
             </tr>
@@ -45,10 +45,10 @@
     </table>
 </c:if>
 <h3>Able to connect options: </h3>
-<c:if test="${notConnected.size() == 0}">
+<c:if test="${notConnectedOptions.size() == 0}">
     <p>There is no options able to connect</p>
 </c:if>
-<c:if test="${notConnected.size() != 0}">
+<c:if test="${notConnectedOptions.size() != 0}">
     <table>
         <thead>
         <tr>
@@ -59,7 +59,7 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${notConnected}" var="ncOption">
+        <c:forEach items="${notConnectedOptions}" var="ncOption">
             <tr>
                 <td>${ncOption.name}</td>
                 <td>${ncOption.costOfConnection}</td>

@@ -1,5 +1,6 @@
-package dao;
+package ru.levelup.junior.services;
 
+import configuration.TestConfig;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,28 +9,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
-import configuration.TestConfig;
-import ru.levelup.junior.web.DashboardService;
+import ru.levelup.junior.repositories.ClientsRepository;
+import ru.levelup.junior.repositories.ContractsRepository;
+import ru.levelup.junior.repositories.OptionsRepository;
+import ru.levelup.junior.repositories.TariffsRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import java.util.List;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 /**
- * Created by otherz on 06.11.2019.
+ * Created by otherz on 30.11.2019.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ContractsDAOTest {
+public class ContractServiceTest {
     @Autowired
     private ContractService contractService;
 
@@ -108,36 +109,14 @@ public class ContractsDAOTest {
         this.tariff = tariffMedium;
     }
 
-    @Test
-    public void create() throws Exception {
-        Assert.assertNotNull(manager.find(Contract.class, contract.getId()));
-    }
 
     @Test
-    public void findByPhoneNumber() throws Exception {
-        Contract found = contractsRepository.findByPhoneNumber(contract.getPhoneNumber());
-
-        Assert.assertNotNull(found);
-        Assert.assertEquals(contract.getId(), found.getId());
-
-    }
-
-
-    @Test
-    public void findByClient() throws Exception {
-        List<Contract> found = contractsRepository.findByClient(client);
-
-
-        Assert.assertEquals(2, found.size());
-        Assert.assertEquals(client.getId(), found.get(0).getClient().getId());
-    }
-
-    @Test
-    public void findById() throws Exception {
+    public void removeOption() throws Exception {
+        contractService.removeOption(contract.getId(), option.getId());
         Contract found = contractsRepository.findById(contract.getId()).get();
 
-        Assert.assertNotNull(found);
-        Assert.assertEquals(contract.getPhoneNumber(), found.getPhoneNumber());
+        Assert.assertEquals(1, found.getOptions().size());
+        Assert.assertEquals("testOption2", found.getOptions().get(0).getName());
     }
 
     @Test
@@ -148,15 +127,6 @@ public class ContractsDAOTest {
         Assert.assertEquals(1, found.getOptions().size());
         Assert.assertEquals(option.getId(), found.getOptions().get(0).getId());
         Assert.assertEquals("testOption1", found.getOptions().get(0).getName());
-    }
-
-    @Test
-    public void removeOption() throws Exception {
-        contractService.removeOption(contract.getId(), option.getId());
-        Contract found = contractsRepository.findById(contract.getId()).get();
-
-        Assert.assertEquals(1, found.getOptions().size());
-        Assert.assertEquals("testOption2", found.getOptions().get(0).getName());
     }
 
     @Test
@@ -176,14 +146,6 @@ public class ContractsDAOTest {
     }
 
     @Test
-    public void findContractsToChose() throws Exception {
-        List<Contract> contracts = contractsRepository.findContractsToChose();
-
-        Assert.assertEquals(1, contracts.size());
-        Assert.assertEquals("0000000", contracts.get(0).getPhoneNumber());
-    }
-
-    @Test
     public void setClientToContract() throws Exception {
         contractService.setClientToContract(contractWithoutClientAndTariff.getPhoneNumber(), client.getId());
 
@@ -191,7 +153,6 @@ public class ContractsDAOTest {
 
         Assert.assertEquals(contractWithoutClientAndTariff.getPhoneNumber(), found.getPhoneNumber());
         Assert.assertEquals(client.getId(), found.getClient().getId());
-
     }
 
     @Test
@@ -204,4 +165,5 @@ public class ContractsDAOTest {
         Assert.assertEquals(tariff.getId(), found.getTariff().getId());
         Assert.assertEquals("tariffMedium", found.getTariff().getName());
     }
+
 }

@@ -1,4 +1,4 @@
-package ru.levelup.junior.dao;
+package ru.levelup.junior.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -11,13 +11,7 @@ import java.util.List;
  */
 @Repository
 public interface TariffsRepository extends CrudRepository<Tariff, Integer>{
-
     Tariff findByName(String name);
 
     List<Tariff> findByPriceBetween(double minPrice, double maxPrice);
-
-//    public List<Tariff> findAllTariffs() {
-//        return manager.createQuery("FROM Tariff ORDER BY price", Tariff.class)
-//                .getResultList();
-//    }
 }

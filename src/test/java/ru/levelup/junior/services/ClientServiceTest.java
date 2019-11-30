@@ -1,32 +1,31 @@
-package dao;
+package ru.levelup.junior.services;
 
+import configuration.TestConfig;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Tariff;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import configuration.TestConfig;
-
-import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
-import javax.persistence.PersistenceContext;
+import ru.levelup.junior.repositories.ClientsRepository;
+import ru.levelup.junior.repositories.ContractsRepository;
+import ru.levelup.junior.repositories.TariffsRepository;
 
 import static org.junit.Assert.*;
 
 /**
- * Created by otherz on 06.11.2019.
+ * Created by otherz on 30.11.2019.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-public class ClientsDAOTest {
+public class ClientServiceTest {
 
     @Autowired
     private ClientsRepository clientsRepository;
@@ -39,9 +38,6 @@ public class ClientsDAOTest {
 
     @Autowired
     private TariffsRepository tariffsRepository;
-
-    @PersistenceContext
-    private EntityManager manager;
 
     private Client client;
 
@@ -64,57 +60,10 @@ public class ClientsDAOTest {
     }
 
     @Test
-    public void create() throws Exception {
-        Assert.assertNotNull(manager.find(Client.class, client.getId()));
-    }
-
-    @Test
-    public void findByLogin() throws Exception {
-
-        Client found = clientsRepository.findByLogin(client.getLogin());
-
-        Assert.assertNotNull(found);
-        Assert.assertEquals(client.getId(), found.getId());
-
-    }
-
-    @Test
-    public void findByLoginAndPassword() throws Exception {
-
-        Client found = clientsRepository.findByLoginAndPassword(client.getLogin(), client.getPassword());
-
-        Assert.assertNotNull(found);
-        Assert.assertEquals(client.getId(), found.getId());
-        Assert.assertEquals("John", found.getFirstName());
-
-    }
-
-    @Test
-    public void findByPassportNumber() throws Exception {
-
-        Client found = clientsRepository.findByPassportNumber(client.getPassportNumber());
-
-        Assert.assertNotNull(found);
-        Assert.assertEquals(client.getId(), found.getId());
-
-
-    }
-    @Test
     public void findByPhoneNumber() throws Exception {
-
         Client found = clientService.findByPhoneNumber(contract.getPhoneNumber());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(client.getId(), found.getId());
-
-    }
-
-    @Test
-    public void findById() throws Exception {
-
-        Client found = clientsRepository.findById(client.getId()).get();
-
-        Assert.assertNotNull(found);
-
     }
 }

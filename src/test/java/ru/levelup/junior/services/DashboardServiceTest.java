@@ -1,4 +1,4 @@
-package Services;
+package ru.levelup.junior.services;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
-import ru.levelup.junior.web.DashboardService;
+import ru.levelup.junior.repositories.ClientsRepository;
+import ru.levelup.junior.repositories.ContractsRepository;
+import ru.levelup.junior.repositories.OptionsRepository;
+import ru.levelup.junior.repositories.TariffsRepository;
+import ru.levelup.junior.services.DashboardService;
 import configuration.TestConfig;
 
 import java.util.List;

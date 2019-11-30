@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.ClientsRepository;
+import ru.levelup.junior.repositories.ClientsRepository;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.web.RegistrationFormBean;
-
-import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -30,18 +28,20 @@ public class LoginController {
             HttpSession session,
             @RequestParam String login,
             @RequestParam String password,
-            ModelMap model) {
-        try {
-            Client found = clientsRepository.findByLoginAndPassword(login, password);
-            session.setAttribute("clientId", found.getId());
-            session.setAttribute("clientName", found.getFirstName());
-            session.setAttribute("isAdmin", found.isAdmin());
+            ModelMap model
+    ) {
+        Client found = clientsRepository.findByLoginAndPassword(login, password);
 
-            return "redirect:/dashboard";
-        } catch (NoResultException notFound) {
+        if (found == null) {
             model.addAttribute("login", "login");
             return "mainPage";
         }
+
+        session.setAttribute("clientId", found.getId());
+        session.setAttribute("clientName", found.getFirstName());
+        session.setAttribute("isAdmin", found.isAdmin());
+
+        return "redirect:/dashboard";
     }
 
     @GetMapping(path = "/register")

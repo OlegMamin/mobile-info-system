@@ -5,7 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.TariffsRepository;
+import ru.levelup.junior.repositories.TariffsRepository;
 import ru.levelup.junior.entities.Tariff;
 import javax.persistence.NoResultException;
 import java.util.List;

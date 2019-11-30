@@ -1,4 +1,4 @@
-package ru.levelup.junior.dao;
+package ru.levelup.junior.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
@@ -11,21 +11,9 @@ import ru.levelup.junior.entities.Contract;
  */
 @Repository
 public interface ClientsRepository extends CrudRepository<Client, Integer>{
-
     Client findByLogin(String login);
 
     Client findByLoginAndPassword(String login, String password);
 
     Client findByPassportNumber(String passportNumber);
-
-
-
-//    public Client findByPhoneNumber(String phoneNumber) {
-//        Contract contract =  manager.createQuery("FROM Contract WHERE phoneNumber = :p", Contract.class)
-//                .setParameter("p", phoneNumber)
-//                .getSingleResult();
-//        return contract.getClient();
-//    }
-//
-
 }

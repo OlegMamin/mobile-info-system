@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.ContractService;
+import ru.levelup.junior.services.ContractService;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
 

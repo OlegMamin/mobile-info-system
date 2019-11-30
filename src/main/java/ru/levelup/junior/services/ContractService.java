@@ -1,4 +1,4 @@
-package ru.levelup.junior.dao;
+package ru.levelup.junior.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -7,9 +7,10 @@ import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
 import ru.levelup.junior.entities.Tariff;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import ru.levelup.junior.repositories.ClientsRepository;
+import ru.levelup.junior.repositories.ContractsRepository;
+import ru.levelup.junior.repositories.OptionsRepository;
+import ru.levelup.junior.repositories.TariffsRepository;
 
 /**
  * Created by otherz on 29.11.2019.

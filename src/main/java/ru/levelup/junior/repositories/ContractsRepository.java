@@ -1,4 +1,4 @@
-package ru.levelup.junior.dao;
+package ru.levelup.junior.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -16,12 +16,10 @@ import java.util.List;
  */
 @Repository
 public interface ContractsRepository extends CrudRepository<Contract, Integer>{
-
     Contract findByPhoneNumber(String phoneNumber);
 
     List<Contract> findByClient(Client client);
 
     @Query("FROM Contract WHERE client = null ORDER BY phoneNumber")
     List<Contract> findContractsToChose();
-
 }

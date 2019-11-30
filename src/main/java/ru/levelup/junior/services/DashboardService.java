@@ -1,9 +1,9 @@
-package ru.levelup.junior.web;
+package ru.levelup.junior.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.levelup.junior.dao.ClientsRepository;
-import ru.levelup.junior.dao.ContractsRepository;
+import ru.levelup.junior.repositories.ClientsRepository;
+import ru.levelup.junior.repositories.ContractsRepository;
 import ru.levelup.junior.entities.Contract;
 
 import java.util.List;

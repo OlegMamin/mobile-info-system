@@ -5,13 +5,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import ru.levelup.junior.dao.*;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Option;
-import ru.levelup.junior.entities.Tariff;
+import ru.levelup.junior.repositories.ContractsRepository;
+import ru.levelup.junior.repositories.OptionsRepository;
+import ru.levelup.junior.services.ContractService;
 
 import javax.persistence.NoResultException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,7 +40,7 @@ public class OptionsToChoseController {
             notConnected.removeAll(contractOptions);
 
             model.addAttribute("contractOptions", contractOptions);
-            model.addAttribute("notConnected", notConnected);
+            model.addAttribute("notConnectedOptions", notConnected);
 
             model.addAttribute("contract", contract);
 
