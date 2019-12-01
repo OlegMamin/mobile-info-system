@@ -76,4 +76,13 @@ public class TariffsRepositoryTest {
         Assert.assertEquals("tariffLow", found.get(0).getName());
     }
 
+    @Test
+    public void findAllOrderByPrice() throws Exception {
+        List<Tariff> found = (List<Tariff>) tariffsRepository.findAllOrderByPrice();
+
+        Assert.assertEquals(3, found.size());
+        Assert.assertEquals(tariff.getId(), found.get(0).getId());
+        Assert.assertEquals("tariffHigh", found.get(2).getName());
+    }
+
 }

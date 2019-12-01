@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.levelup.junior.repositories.ClientsRepository;
 import ru.levelup.junior.entities.Client;
+import ru.levelup.junior.web.LoginFormBean;
 import ru.levelup.junior.web.RegistrationFormBean;
 import javax.servlet.http.HttpSession;
 
@@ -24,19 +25,23 @@ public class LoginController {
     private ClientsRepository clientsRepository;
 
     @PostMapping(path = "/login")
-    public String processLogin(
+    public String newLogin(
             HttpSession session,
-            @RequestParam String login,
-            @RequestParam String password,
-            ModelMap model
+            @Validated
+            @ModelAttribute("loginForm") LoginFormBean loginForm,
+            BindingResult result
     ) {
-        Client found = clientsRepository.findByLoginAndPassword(login, password);
+        Client found = clientsRepository.findByLoginAndPassword(loginForm.getLogin(), loginForm.getPassword());
 
         if (found == null) {
-            model.addAttribute("login", "login");
-            return "mainPage";
+            result.addError(new FieldError("loginForm", "login", loginForm.getLogin(),
+                    false, null, null,
+                    "Incorrect login or password"));
         }
 
+        if (result.hasErrors()) {
+            return "mainPage";
+        }
         session.setAttribute("clientId", found.getId());
         session.setAttribute("clientName", found.getFirstName());
         session.setAttribute("isAdmin", found.isAdmin());
@@ -60,18 +65,28 @@ public class LoginController {
                     "Confirmation doesn't match."));
         }
 
+        Client foundByLogin = clientsRepository.findByLogin(form.getLogin());
+        if (foundByLogin != null){
+            result.addError(new FieldError("form", "login", form.getLogin(),
+                    false, null, null,
+                    "Client with this login is already registered."));
+        }
+
+        Client foundByPassport = clientsRepository.findByPassportNumber(form.getPassportNumber());
+        if (foundByPassport != null){
+            result.addError(new FieldError("form", "passportNumber", form.getPassportNumber(),
+                    false, null, null,
+                    "Client with this passport number is already registered."));
+        }
+
         if (result.hasErrors()) {
             return "registration";
         }
 
-        try {
-            //save() do not throw exception!!
-            clientsRepository.save(new Client(
-                    form.getFirstName(), form.getSecondName(), form.getPassportNumber(), form.getLogin(), form.getPassword()));
-        } catch (Exception e) {
-            result.addError(new FieldError("form", "login",
-                    "Client with this login is already registered."));
-        }
+        Client tryingToSave = new Client(
+                form.getFirstName(), form.getSecondName(),
+                form.getPassportNumber(), form.getLogin(), form.getPassword());
+        clientsRepository.save(tryingToSave);
 
         return "redirect:/";
     }

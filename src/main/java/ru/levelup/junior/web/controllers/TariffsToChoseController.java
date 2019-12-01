@@ -23,7 +23,7 @@ public class TariffsToChoseController {
             ModelMap model,
             @RequestParam String phoneNumber) {
         try {
-            List<Tariff> tariffsToChose = (List<Tariff>) tariffsRepository.findAll();
+            List<Tariff> tariffsToChose = (List<Tariff>) tariffsRepository.findAllOrderByPrice();
             model.addAttribute("tariffsToChose", tariffsToChose);
             model.addAttribute("phoneNumber", phoneNumber);
             return "tariffsToChose";
