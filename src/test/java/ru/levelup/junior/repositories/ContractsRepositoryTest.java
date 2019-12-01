@@ -143,4 +143,14 @@ public class ContractsRepositoryTest {
         Assert.assertEquals("0000000", contracts.get(0).getPhoneNumber());
     }
 
+    @Test
+    public void findByClientOrderByPhoneNumber() throws Exception {
+        List<Contract> found = contractsRepository.findByClientOrderByPhoneNumber(client);
+
+        Assert.assertEquals(2, found.size());
+        Assert.assertEquals("1112233", found.get(0).getPhoneNumber());
+        Assert.assertEquals(client.getId(), found.get(0).getClient().getId());
+
+    }
+
 }

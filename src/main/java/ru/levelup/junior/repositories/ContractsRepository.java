@@ -20,6 +20,8 @@ public interface ContractsRepository extends CrudRepository<Contract, Integer>{
 
     List<Contract> findByClient(Client client);
 
+    List<Contract> findByClientOrderByPhoneNumber(Client client);
+
     @Query("FROM Contract WHERE client = null ORDER BY phoneNumber")
     List<Contract> findContractsToChose();
 }

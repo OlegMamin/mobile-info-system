@@ -21,6 +21,8 @@ public class DashboardService {
     private ContractsRepository contractsRepository;
 
     public List<Contract> getContracts(int clientId) {
-        return clientsRepository.findById(clientId).map(client -> contractsRepository.findByClient(client)).get();
+        return clientsRepository.findById(clientId)
+                .map(client -> contractsRepository.findByClientOrderByPhoneNumber(client))
+                .get();
     }
 }
