@@ -7,6 +7,7 @@
 </head>
 <h1>Hello</h1>
 <body>
+<c:if test="${empty sessionScope['clientId']}">
     <form:form action="/newLogin" method="post" modelAttribute="loginForm">
         <p>Login:
             <form:input type="text" path="login" />
@@ -17,7 +18,13 @@
             <form:errors path="password" cssStyle="color: firebrick" />
         </p>
 
-        <input type="submit" value="new login">
+        <input type="submit" value="Sign in">
     </form:form>
+    <input type="button" value="Registration" onClick='location.href="/register"'>
+    <%--<a href="/register">Registration</a>--%>
+</c:if>
+<c:if test="${not empty sessionScope['clientId']}">
+    <p><a href="/dashboard">Dashboard</a></p>
+</c:if>
 </body>
 </html>

@@ -40,7 +40,8 @@ public class NewLoginController {
         Client found = clientsRepository.findByLoginAndPassword(loginForm.getLogin(), loginForm.getPassword());
 
         if (found == null) {
-            result.addError(new FieldError("loginForm", "login",
+            result.addError(new FieldError("loginForm", "login", loginForm.getLogin(),
+                    false, null, null,
                     "Incorrect login or password"));
         }
 
@@ -53,7 +54,7 @@ public class NewLoginController {
 
         return "redirect:/dashboard";
     }
-    @GetMapping(path = "/newLogin")
+    @GetMapping(path = "/")
     public String newLoginPage() {
         return "newLogin";
     }
