@@ -21,6 +21,7 @@
     </form>
 
     <a href="/register">Registration</a>
+    <a href="/newLogin">New login</a>
 </c:if>
 
 <c:if test="${not empty sessionScope['clientId']}">
