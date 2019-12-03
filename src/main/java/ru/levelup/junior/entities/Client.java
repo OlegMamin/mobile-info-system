@@ -1,5 +1,7 @@
 package ru.levelup.junior.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Past;
@@ -40,6 +42,7 @@ public class Client {
     @Size(min = 4)
     private String login;
 
+    @JsonIgnore
     @Column(nullable = false, length = 32)
     @Size(min = 4)
     private String password;
