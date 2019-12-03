@@ -1,25 +1,30 @@
-function createContractRow(pnumber, tname, tprice, cname, csurmame, optionlength) {
+function createContractRow(pnumber, tname, tprice, cname, csurmame, contractid) {
     var tr = document.createElement('tr');
     var pnumberCell = document.createElement('td');
     var tnameCell = document.createElement('td');
     var tpriceCell = document.createElement('td');
     var cnameCell = document.createElement('td');
     var csurnameCell = document.createElement('td');
-    var optionlengthCell = document.createElement('td');
+    var optionCell = document.createElement('td');
+
+    var link = document.createElement('a');
+    link.href = '/dashboard/options?contractId=' + contractid;
+    link.title = 'Show connected options';
+    link.appendChild(document.createTextNode('Details'));
+    optionCell.appendChild(link);
 
     pnumberCell.textContent = pnumber;
     tnameCell.textContent = tname;
     tpriceCell.textContent = tprice;
     cnameCell.textContent = cname;
     csurnameCell.textContent = csurmame;
-    optionlengthCell.textContent = optionlength;
 
     tr.appendChild(pnumberCell);
     tr.appendChild(tnameCell);
     tr.appendChild(tpriceCell);
     tr.appendChild(cnameCell);
     tr.appendChild(csurnameCell);
-    tr.appendChild(optionlengthCell);
+    tr.appendChild(optionCell);
 
     return tr;
 }
@@ -35,9 +40,9 @@ function contractsLoaded(loadedContracts) {
         var tprice = contract.tariff.price.toString();
         var cname = contract.client.firstName;
         var csurmame = contract.client.lastName;
-        var optionlength = contract.options.length;
+        var contractid = contract.id;
 
-        var tr = createContractRow(pnumber, tname, tprice, cname, csurmame, optionlength);
+        var tr = createContractRow(pnumber, tname, tprice, cname, csurmame, contractid);
         tbody.appendChild(tr);
     }
 }

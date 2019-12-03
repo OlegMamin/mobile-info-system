@@ -14,6 +14,8 @@ import ru.levelup.junior.repositories.ContractsRepository;
 import ru.levelup.junior.repositories.OptionsRepository;
 import ru.levelup.junior.repositories.TariffsRepository;
 
+import java.util.Random;
+
 
 /**
  * Created by otherz on 11.11.2019.
@@ -73,8 +75,12 @@ public class StartupListener {
         contract2 = new Contract("1112233", firstClient, tariffHigh);
         contract3 = new Contract("2322212", firstClient, tariffMedium);
         contract4 = new Contract("4666666", secondClient, tariffHigh);
-        contract5 = new Contract("5555555");
-        contract6 = new Contract("1777777");
+
+        for (int i = 0; i < 100; i++) {
+            String number = "" + (new Random().nextInt(8999999) + 1000000);
+            contractsRepository.save(new Contract(number));
+        }
+
         option1 = new Option("option1", 10, 3);
         option2 = new Option("option2", 12, 4);
         option3 = new Option("option3", 5, 2);
@@ -97,8 +103,6 @@ public class StartupListener {
         contractsRepository.save(contract2);
         contractsRepository.save(contract3);
         contractsRepository.save(contract4);
-        contractsRepository.save(contract5);
-        contractsRepository.save(contract6);
         optionsRepository.save(option1);
         optionsRepository.save(option2);
         optionsRepository.save(option3);
