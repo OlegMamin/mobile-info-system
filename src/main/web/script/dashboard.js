@@ -1,62 +1,69 @@
-function createTransactionRow(date, amount, from, to) {
+function createContractRow(pnumber, tname, tprice, cname, csurmame, optionlength) {
     var tr = document.createElement('tr');
-    var dateCell = document.createElement('td');
-    var amountCell = document.createElement('td');
-    var fromCell = document.createElement('td');
-    var toCell = document.createElement('td');
+    var pnumberCell = document.createElement('td');
+    var tnameCell = document.createElement('td');
+    var tpriceCell = document.createElement('td');
+    var cnameCell = document.createElement('td');
+    var csurnameCell = document.createElement('td');
+    var optionlengthCell = document.createElement('td');
 
-    dateCell.textContent = date;
-    amountCell.textContent = amount;
-    fromCell.textContent = from;
-    toCell.textContent = to;
+    pnumberCell.textContent = pnumber;
+    tnameCell.textContent = tname;
+    tpriceCell.textContent = tprice;
+    cnameCell.textContent = cname;
+    csurnameCell.textContent = csurmame;
+    optionlengthCell.textContent = optionlength;
 
-    tr.appendChild(dateCell);
-    tr.appendChild(amountCell);
-    tr.appendChild(fromCell);
-    tr.appendChild(toCell);
+    tr.appendChild(pnumberCell);
+    tr.appendChild(tnameCell);
+    tr.appendChild(tpriceCell);
+    tr.appendChild(cnameCell);
+    tr.appendChild(csurnameCell);
+    tr.appendChild(optionlengthCell);
 
     return tr;
 }
 
-function transactionsLoaded(transactions) {
-    var tbody = document.getElementById('transactions-list');
+function contractsLoaded(loadedContracts) {
+    var tbody = document.getElementById('contracts-list');
     clearNode(tbody);
 
-    for (var index = 0; index < transactions.length; index++) {
-        var transaction = transactions[index];
-        var date = new Date(transaction.time).toISOString();
-        var amount = transaction.amount.toString();
-        var from = transaction.origin.login;
-        var to = transaction.receiver.login;
+    for (var index = 0; index < loadedContracts.length; index++) {
+        var contract = loadedContracts[index];
+        var pnumber = contract.phoneNumber;
+        var tname = contract.tariff.name;
+        var tprice = contract.tariff.price.toString();
+        var cname = contract.client.firstName;
+        var csurmame = contract.client.lastName;
+        var optionlength = contract.options.length;
 
-        var tr = createTransactionRow(date, amount, from, to);
+        var tr = createContractRow(pnumber, tname, tprice, cname, csurmame, optionlength);
         tbody.appendChild(tr);
     }
 }
 
-function loadTransactionsFailed() {
-    var tbody = document.getElementById('transactions-list');
+function loadContractsFailed() {
+    var tbody = document.getElementById('contracts-list');
     clearNode(tbody);
 
     var tr = document.createElement('tr');
     var errorMessageCell = document.createElement('td');
-    errorMessageCell.colSpan = 4;
+    errorMessageCell.colSpan = 6;
     errorMessageCell.textContent = 'Failed to load transactions';
 
     tr.appendChild(errorMessageCell);
     tbody.appendChild(tr);
 }
 
-function loadTransactions(id) {
+function loadContracts(id) {
     var request = new XMLHttpRequest();
-    request.open("get", "/api/transactions/find?clientId=" + id, true);
+    request.open("get", "/api/contracts/find?clientId=" + id, true);
     request.onreadystatechange = function (ev) {
         if (request.readyState === 4) {
             if (request.status === 200) {
-                var response = JSON.parse(request.responseText);
-                transactionsLoaded(response.content);
+                contractsLoaded(JSON.parse(request.responseText));
             } else {
-                loadTransactionsFailed();
+                loadContractsFailed();
             }
         }
     };
