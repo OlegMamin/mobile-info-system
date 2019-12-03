@@ -12,7 +12,6 @@
     <style>
         <%@include file="style.css" %>
     </style>
-    <%--<style  type="text/css" resource="style.css"/>--%>
 </head>
 <body onload="loadContracts(clientId)">
     <h1>Welcome, ${sessionScope['clientName']}!</h1>

@@ -54,7 +54,7 @@ function loadContractsFailed() {
     var tr = document.createElement('tr');
     var errorMessageCell = document.createElement('td');
     errorMessageCell.colSpan = 6;
-    errorMessageCell.textContent = 'Failed to load transactions';
+    errorMessageCell.textContent = 'Failed to load contracts';
 
     tr.appendChild(errorMessageCell);
     tbody.appendChild(tr);

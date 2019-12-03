@@ -5,11 +5,12 @@
 <html>
 <head>
     <title>Contracts</title>
+    <script type="text/javascript" src="/script/contractsToChose.js"></script>
     <style>
         <%@include file="style.css" %>
     </style>
 </head>
-<body>
+<body  onload="loadFreeContracts()">
 <h3>Chose contract from the list below:</h3>
 <c:if test="${contractsToChose.size() != 0}">
     <table>
@@ -19,17 +20,19 @@
             <th>Action</th>
         </tr>
         </thead>
-        <tbody>
-
-        <c:forEach items="${contractsToChose}" var="contractTo">
+        <tbody id="free-contracts-list">
             <tr>
-                <td>${contractTo.phoneNumber}</td>
-                <td>
-                    <a href="/dashboard/tariffs?phoneNumber=${contractTo.phoneNumber}">Select</a>
-                </td>
+                <td colspan="2">Loading...</td>
             </tr>
-        </c:forEach>
 
+        <%--<c:forEach items="${contractsToChose}" var="contractTo">--%>
+            <%--<tr>--%>
+                <%--<td>${contractTo.phoneNumber}</td>--%>
+                <%--<td>--%>
+                    <%--<a href="/dashboard/tariffs?phoneNumber=${contractTo.phoneNumber}">Select</a>--%>
+                <%--</td>--%>
+            <%--</tr>--%>
+        <%--</c:forEach>--%>
         </tbody>
     </table>
 </c:if>

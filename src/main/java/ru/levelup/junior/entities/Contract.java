@@ -13,7 +13,7 @@ public class Contract {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column
+    @Column(unique = true)
     @Size(min = 4)
     private String phoneNumber;
 
