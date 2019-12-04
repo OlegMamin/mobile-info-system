@@ -1,6 +1,11 @@
 package ru.levelup.junior.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,9 +37,16 @@ public class FirstRestController {
     }
 
     @GetMapping(path = "/api/contracts/findFree")
-    public List<Contract> getFreeContractsRest() {
-
-        return contractsRepository.findContractsToChose();
+    public Page<Contract> getFreeContractsRest(
+            @RequestParam int page
+    ) {
+       return contractsRepository.findContractsToChose(
+//                Sort.by("phoneNumber"),
+//                Sort.unsorted(),
+//                Sort.by("phoneNumber").descending(),
+//                Sort.by(Sort.Order.desc("phoneNumber"), Sort.Order.asc("clientName"))
+                PageRequest.of(page - 1, 10, Sort.by("phoneNumber"))
+                );
     }
 
     @GetMapping(path = "/api/example")

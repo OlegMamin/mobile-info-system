@@ -2,6 +2,7 @@ package ru.levelup.junior.repositories;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import ru.levelup.junior.entities.Tariff;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * Created by otherz on 29.11.2019.
  */
 @Repository
-public interface TariffsRepository extends CrudRepository<Tariff, Integer>{
+public interface TariffsRepository extends PagingAndSortingRepository<Tariff, Integer> {
     Tariff findByName(String name);
 
     @Query("FROM Tariff ORDER BY price")

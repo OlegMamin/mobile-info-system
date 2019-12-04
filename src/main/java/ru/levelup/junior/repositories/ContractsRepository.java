@@ -1,7 +1,11 @@
 package ru.levelup.junior.repositories;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
@@ -15,7 +19,7 @@ import java.util.List;
  * Created by otherz on 29.11.2019.
  */
 @Repository
-public interface ContractsRepository extends CrudRepository<Contract, Integer>{
+public interface ContractsRepository extends PagingAndSortingRepository<Contract, Integer> {
     Contract findByPhoneNumber(String phoneNumber);
 
     List<Contract> findByClient(Client client);
@@ -24,4 +28,10 @@ public interface ContractsRepository extends CrudRepository<Contract, Integer>{
 
     @Query("FROM Contract WHERE client = null ORDER BY phoneNumber")
     List<Contract> findContractsToChose();
+
+    @Query("SELECT a FROM Contract a WHERE a.client = null")
+    Page<Contract> findContractsToChose(
+//            Sort sort,
+            Pageable pageable
+    );
 }

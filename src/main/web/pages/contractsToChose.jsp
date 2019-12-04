@@ -6,11 +6,15 @@
 <head>
     <title>Contracts</title>
     <script type="text/javascript" src="/script/contractsToChose.js"></script>
+    <script type="text/javascript">
+        page = 1;
+    </script>
     <style>
         <%@include file="style.css" %>
     </style>
 </head>
-<body  onload="loadFreeContracts()">
+<body  onload="loadFreeContracts(page)">
+
 <h3>Chose contract from the list below:</h3>
 <c:if test="${contractsToChose.size() != 0}">
     <table>
@@ -24,7 +28,6 @@
             <tr>
                 <td colspan="2">Loading...</td>
             </tr>
-
         <%--<c:forEach items="${contractsToChose}" var="contractTo">--%>
             <%--<tr>--%>
                 <%--<td>${contractTo.phoneNumber}</td>--%>
@@ -36,5 +39,8 @@
         </tbody>
     </table>
 </c:if>
+
+<input type="button" onclick="loadFreeContracts(++page)" value="Next page">
+
 </body>
 </html>

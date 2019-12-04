@@ -43,13 +43,15 @@ function loadFreeContractsFailed() {
     tbody.appendChild(tr);
 }
 
-function loadFreeContracts() {
+function loadFreeContracts(page) {
     var request = new XMLHttpRequest();
-    request.open("get", "/api/contracts/findFree", true);
+    request.open("get", "/api/contracts/findFree?page=" + page, true);
     request.onreadystatechange = function (ev) {
         if (request.readyState === 4) {
             if (request.status === 200) {
-                freeContractsLoaded(JSON.parse(request.responseText));
+                var response = JSON.parse(request.responseText);
+                var contract = response.content;
+                freeContractsLoaded(contract);
             } else {
                 loadFreeContractsFailed();
             }
