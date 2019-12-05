@@ -38,14 +38,15 @@ public class FirstRestController {
 
     @GetMapping(path = "/api/contracts/findFree")
     public Page<Contract> getFreeContractsRest(
+            @RequestParam int size,
             @RequestParam int page
     ) {
-       return contractsRepository.findContractsToChose(
+       return contractsRepository.findContractsToChosePagination(
 //                Sort.by("phoneNumber"),
 //                Sort.unsorted(),
 //                Sort.by("phoneNumber").descending(),
 //                Sort.by(Sort.Order.desc("phoneNumber"), Sort.Order.asc("clientName"))
-                PageRequest.of(page - 1, 10, Sort.by("phoneNumber"))
+                PageRequest.of(page - 1, size, Sort.by("phoneNumber"))
                 );
     }
 

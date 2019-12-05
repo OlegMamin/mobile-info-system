@@ -45,7 +45,7 @@ function loadFreeContractsFailed() {
 
 function loadFreeContracts(page) {
     var request = new XMLHttpRequest();
-    request.open("get", "/api/contracts/findFree?page=" + page, true);
+    request.open("get", "/api/contracts/findFree?size=10&page=" + page, true);
     request.onreadystatechange = function (ev) {
         if (request.readyState === 4) {
             if (request.status === 200) {
