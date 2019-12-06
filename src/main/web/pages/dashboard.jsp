@@ -48,11 +48,7 @@
     </table>
     </c:if>
 
-    <c:if test="${sessionScope['isAdmin'] == true}">
-        <h3>you are admin</h3>
-    </c:if>
-
-    <c:if test="${contracts.size() == 0 && sessionScope['isAdmin'] == false}">
+    <c:if test="${contracts.size() == 0}">
         <p>You have not any contracts.</p>
     </c:if>
     <button onclick="window.location.href='dashboard/contracts'">Add contract</button>

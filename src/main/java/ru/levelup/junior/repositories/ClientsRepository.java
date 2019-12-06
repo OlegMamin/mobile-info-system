@@ -16,7 +16,7 @@ import ru.levelup.junior.entities.Contract;
 public interface ClientsRepository extends PagingAndSortingRepository<Client, Integer> {
     Client findByLogin(String login);
 
-    Client findByLoginAndPassword(String login, String password);
+    Client findByLoginAndEncryptedPassword(String login, String encryptedPassword);
 
     Client findByPassportNumber(String passportNumber);
 }

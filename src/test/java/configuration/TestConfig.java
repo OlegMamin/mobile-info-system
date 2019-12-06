@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import ru.levelup.junior.web.StartupListener;
 import ru.levelup.junior.web.configuration.AppConfig;
 import ru.levelup.junior.web.configuration.WebConfig;
@@ -20,6 +21,7 @@ import ru.levelup.junior.web.configuration.WebConfig;
         @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = StartupListener.class)
 })
 @EnableJpaRepositories(basePackages = "ru.levelup.junior")
+
 public class TestConfig {
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.levelup.junior.services.ContractService;
 import javax.persistence.NoResultException;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 /**
  * Created by otherz on 26.11.2019.
@@ -17,17 +18,16 @@ public class AddEntityController {
     @Autowired
     private ContractService contractService;
 
-    @GetMapping(path = "/addContract")
+    @GetMapping(path = "dashboard/addContract")
     public String setClientToContract(
-            HttpSession session,
+            Principal principal,
             @RequestParam String phoneNumber,
             @RequestParam int tariffId) {
         try {
-            int clientId = (int)session.getAttribute("clientId");
-            contractService.setClientToContract(phoneNumber, clientId);
+            contractService.setClientToContract(phoneNumber, principal.getName());
             contractService.setTariffToContract(phoneNumber, tariffId);
 
-            return "redirect: /dashboard";
+            return "redirect:/dashboard";
         } catch (NoResultException notFound) {
             return "mainPage";
         }

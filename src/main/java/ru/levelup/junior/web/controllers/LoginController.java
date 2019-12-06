@@ -1,15 +1,14 @@
 package ru.levelup.junior.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.levelup.junior.repositories.ClientsRepository;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.web.LoginFormBean;
@@ -24,16 +23,19 @@ public class LoginController {
     @Autowired
     private ClientsRepository clientsRepository;
 
-    @PostMapping(path = "/login")
+    @Autowired
+    private PasswordEncoder encoder;
+
+//    @PostMapping(path = "/login") //we have Spring SecurityForm
     public String newLogin(
             HttpSession session,
             @Validated
             @ModelAttribute("loginForm") LoginFormBean loginForm,
             BindingResult result
     ) {
-        Client found = clientsRepository.findByLoginAndPassword(loginForm.getLogin(), loginForm.getPassword());
-
-        if (found == null) {
+//        Client found = clientsRepository.findByLoginAndEncryptedPassword(loginForm.getLogin(), encoder.encode(loginForm.getPassword()));
+        Client found = clientsRepository.findByLogin(loginForm.getLogin());
+        if (found == null || !encoder.matches(loginForm.getPassword(), found.getEncryptedPassword())) {
             result.addError(new FieldError("loginForm", "login", loginForm.getLogin(),
                     false, null, null,
                     "Incorrect login or password"));
@@ -43,10 +45,13 @@ public class LoginController {
             return "mainPage";
         }
         session.setAttribute("clientId", found.getId());
-        session.setAttribute("clientName", found.getFirstName());
+        session.setAttribute("clientName", found.getFirstName() + " " + found.getLastName());
         session.setAttribute("isAdmin", found.isAdmin());
 
-        return "redirect:/dashboard";
+        if (found.isAdmin()) {
+            return "redirect: /admin";
+        }
+        return "redirect: /dashboard";
     }
 
     @GetMapping(path = "/register")
@@ -65,13 +70,6 @@ public class LoginController {
                     "Confirmation doesn't match."));
         }
 
-        Client foundByLogin = clientsRepository.findByLogin(form.getLogin());
-        if (foundByLogin != null){
-            result.addError(new FieldError("form", "login", form.getLogin(),
-                    false, null, null,
-                    "Client with this login is already registered."));
-        }
-
         Client foundByPassport = clientsRepository.findByPassportNumber(form.getPassportNumber());
         if (foundByPassport != null){
             result.addError(new FieldError("form", "passportNumber", form.getPassportNumber(),
@@ -79,14 +77,18 @@ public class LoginController {
                     "Client with this passport number is already registered."));
         }
 
+        try {
+            clientsRepository.save(new Client(form.getFirstName(),
+                    form.getSecondName(), form.getPassportNumber(),
+                    form.getLogin(), encoder.encode(form.getPassword())));
+        } catch (Exception e) {
+            result.addError(new FieldError("form", "login",
+                    "User with this login is already registered"));
+        }
+
         if (result.hasErrors()) {
             return "registration";
         }
-
-        Client tryingToSave = new Client(
-                form.getFirstName(), form.getSecondName(),
-                form.getPassportNumber(), form.getLogin(), form.getPassword());
-        clientsRepository.save(tryingToSave);
 
         return "redirect:/";
     }

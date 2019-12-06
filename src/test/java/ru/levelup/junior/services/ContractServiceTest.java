@@ -147,7 +147,7 @@ public class ContractServiceTest {
 
     @Test
     public void setClientToContract() throws Exception {
-        contractService.setClientToContract(contractWithoutClientAndTariff.getPhoneNumber(), client.getId());
+        contractService.setClientToContract(contractWithoutClientAndTariff.getPhoneNumber(), client.getLogin());
 
         Contract found = contractsRepository.findById(contractWithoutClientAndTariff.getId()).get();
 

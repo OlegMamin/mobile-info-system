@@ -3,6 +3,7 @@ package ru.levelup.junior.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.levelup.junior.entities.Client;
@@ -37,6 +38,9 @@ public class StartupListener {
     @Autowired
     private OptionsRepository optionsRepository;
 
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Transactional
     @EventListener
     public void handleContextRefreshEvent(ContextRefreshedEvent ctxStartEvt) {
@@ -51,21 +55,19 @@ public class StartupListener {
         Contract contract2;
         Contract contract3;
         Contract contract4;
-        Contract contract5;
-        Contract contract6;
         Option option1;
         Option option2;
         Option option3;
 
         firstClient = new Client("John", "Terry"
-                    , "1234564145", "test", "1234");
+                    , "1234564145", "test", encoder.encode("1234"));
         secondClient = new Client("Frank", "Lampard"
-                    , "1005323232", "second", "4567");
+                    , "1005323232", "second", encoder.encode("4567"));
         withoutContractClient = new Client("Homer", "Simpson"
-                    , "123456", "hommy", "1234");
+                    , "123456", "hommy", encoder.encode("1234"));
 
         admin = new Client("Admin", "Smith"
-                    , "123098", "admin", "1111");
+                    , "123098", "admin", encoder.encode("1111"));
         admin.setAdmin(true);
 
         tariffLow = new Tariff("tariffLow", 100);

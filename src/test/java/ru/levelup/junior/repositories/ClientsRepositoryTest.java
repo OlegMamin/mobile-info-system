@@ -12,12 +12,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import ru.levelup.junior.entities.Client;
 import ru.levelup.junior.entities.Contract;
 import ru.levelup.junior.entities.Tariff;
-import ru.levelup.junior.services.ClientService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by otherz on 30.11.2019.
@@ -75,7 +72,7 @@ public class ClientsRepositoryTest {
 
     @Test
     public void findByLoginAndPassword() throws Exception {
-        Client found = clientsRepository.findByLoginAndPassword(client.getLogin(), client.getPassword());
+        Client found = clientsRepository.findByLoginAndEncryptedPassword(client.getLogin(), client.getEncryptedPassword());
 
         Assert.assertNotNull(found);
         Assert.assertEquals(client.getId(), found.getId());

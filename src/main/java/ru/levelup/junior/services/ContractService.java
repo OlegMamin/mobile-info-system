@@ -61,9 +61,9 @@ public class ContractService {
     }
 
     @Transactional
-    public void setClientToContract(String phoneNumber, int clientId){
+    public void setClientToContract(String phoneNumber, String login){
         Contract contract = contractsRepository.findByPhoneNumber(phoneNumber);
-        Client client = clientsRepository.findById(clientId).get();
+        Client client = clientsRepository.findByLogin(login);
 
         contract.setClient(client);
         contractsRepository.save(contract);

@@ -43,9 +43,9 @@ public class Client {
     private String login;
 
     @JsonIgnore
-    @Column(nullable = false, length = 32)
+    @Column(nullable = false, length = 64)
     @Size(min = 4)
-    private String password;
+    private String encryptedPassword;
 
     @Column
     private boolean isAdmin;
@@ -53,12 +53,12 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName, String lastName, String passportNumber, String login, String password) {
+    public Client(String firstName, String lastName, String passportNumber, String login, String encryptedPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.passportNumber = passportNumber;
         this.login = login;
-        this.password = password;
+        this.encryptedPassword = encryptedPassword;
     }
 
     public int getId() {
@@ -126,12 +126,12 @@ public class Client {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getEncryptedPassword() {
+        return encryptedPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setEncryptedPassword(String password) {
+        this.encryptedPassword = password;
     }
 
     public boolean isAdmin() {

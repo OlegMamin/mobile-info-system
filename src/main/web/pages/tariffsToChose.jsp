@@ -28,7 +28,7 @@
                 <td>${tariffsTo.name}</td>
                 <td>${tariffsTo.price}</td>
                 <td>
-                    <a href="/addContract?phoneNumber=${phoneNumber}&tariffId=${tariffsTo.id}">Apply</a>
+                    <a href="/dashboard/addContract?phoneNumber=${phoneNumber}&tariffId=${tariffsTo.id}">Apply</a>
                 </td>
             </tr>
         </c:forEach>

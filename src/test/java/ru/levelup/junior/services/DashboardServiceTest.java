@@ -16,7 +16,6 @@ import ru.levelup.junior.repositories.ClientsRepository;
 import ru.levelup.junior.repositories.ContractsRepository;
 import ru.levelup.junior.repositories.OptionsRepository;
 import ru.levelup.junior.repositories.TariffsRepository;
-import ru.levelup.junior.services.DashboardService;
 import configuration.TestConfig;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class DashboardServiceTest {
     @Autowired
     private OptionsRepository optionsRepository;
 
-    private int clientId;
+    private Client client;
 
     @Before
     public void setup() {
@@ -82,12 +81,12 @@ public class DashboardServiceTest {
         contractsRepository.save(contract2);
         contractsRepository.save(contract3);
         contractsRepository.save(contract4);
-        clientId = client1.getId();
+        this.client = client1;
     }
 
     @Test
     public void getContracts() {
-        List<Contract> contracts = dashboardService.getContracts(clientId);
+        List<Contract> contracts = dashboardService.getContractsByLogin(client.getLogin());
 
         Assert.assertEquals(3, contracts.size());
     }
