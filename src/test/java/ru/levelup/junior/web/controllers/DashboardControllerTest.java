@@ -31,9 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/**
- * Created by otherz on 06.12.2019.
- */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestConfig.class, SecurityConfig.class, WebConfig.class})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
@@ -81,7 +79,7 @@ public class DashboardControllerTest {
     public void authorizedUserShouldSeeDashboard() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/dashboard"))
                 .andExpect(status().isOk())
-                .andExpect(model().attributeExists("contracts", "clientId"))
+                .andExpect(model().attributeExists("contracts"))
                 .andReturn();
     }
 }
