@@ -21,4 +21,9 @@ public class MainPageController {
     public String index() {
         return "mainPage";
     }
+
+    @GetMapping(path = "/api/angularExample")
+    public String ang(){
+        return "angPage";
+    }
 }
